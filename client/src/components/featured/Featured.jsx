@@ -40,7 +40,7 @@ const Featured = ({ type, setGenre }) => {
             <option value="sci-fi">Khoa học viễn tưởng</option>
             <option value="thriller">Giật gân</option>
             <option value="western">Viễn tây</option>
-            <option value="animation">Animation</option>
+            <option value="animation">Hoạt hình</option>
             <option value="drama">Drama</option>
             <option value="documentary">Tài liệu</option>
           </select>
