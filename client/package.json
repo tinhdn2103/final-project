@@ -44,5 +44,5 @@
       "last 1 safari version"
     ]
   },
-  "proxy": "https://warm-reaches-61010.herokuapp.com/api/"
+  "proxy": "http://localhost:8800/api/"
 }

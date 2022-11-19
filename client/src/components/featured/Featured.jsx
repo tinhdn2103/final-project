@@ -47,6 +47,7 @@ const Featured = ({ type, setGenre }) => {
         </div>
       )}
       <img src={content.img} alt="" className="img" />
+
       <div className="info">
         <img src={content.imgTitle} alt="" />
 
@@ -63,6 +64,7 @@ const Featured = ({ type, setGenre }) => {
           </button>
         </div>
       </div>
+
       <div className="control"></div>
     </div>
   );
