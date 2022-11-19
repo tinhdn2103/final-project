@@ -132,6 +132,7 @@ app.use("/api/trending", trendingRoute);
 app.use("/api/recommend", recommendRoute);
 app.use("/api/myList", myListRoute);
 
-app.listen(8800, () => {
+const PORT = process.env.PORT || 8800;
+app.listen(PORT, () => {
   console.log("Backend server is running");
 });
