@@ -1,0 +1,39 @@
+.search {
+  background-color: var(--main-color);
+  overflow: hidden;
+  height: 100vh;
+
+  .listSearch {
+    position: relative;
+    width: 100%;
+    margin-top: 20px;
+    margin-left: 50px;
+    display: grid;
+    row-gap: 50px;
+    column-gap: 5px;
+    grid-template-columns: repeat(6, 205px);
+  }
+  .title-search {
+    margin-top: 100px;
+    margin-left: 50px;
+    display: flex;
+    color: white;
+    .loader {
+      margin-left: 20px;
+      border: 5px solid white;
+      border-radius: 50%;
+      border-top: 5px solid var(--theme-color);
+      width: 16px;
+      height: 16px;
+      animation: spin 2s linear infinite;
+    }
+    @keyframes spin {
+      0% {
+        transform: rotate(0deg);
+      }
+      100% {
+        transform: rotate(360deg);
+      }
+    }
+  }
+}

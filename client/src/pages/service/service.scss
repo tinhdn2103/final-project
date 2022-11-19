@@ -1,0 +1,142 @@
+.login {
+  width: 100vw;
+  height: 100vh;
+  background: linear-gradient(
+      to bottom,
+      rgba(0, 0, 0, 0) 0%,
+      rgba(0, 0, 0, 1) 100%
+    ),
+    url("https://firebasestorage.googleapis.com/v0/b/movie-web-fadf1.appspot.com/o/background.jpg?alt=media&token=6217dd99-c3e7-48be-8c1c-6ce986a55711");
+
+  background-size: cover;
+  position: relative;
+  .top {
+    .wrapper {
+      padding: 20px 50px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+
+      .logo {
+        height: 40px;
+      }
+      .loginButton {
+        background-color: var(--theme-color);
+        border: none;
+        color: white;
+        border-radius: 5px;
+        padding: 5px 15px;
+        font-size: 16px;
+        font-weight: 500;
+
+        cursor: pointer;
+      }
+    }
+  }
+
+  .chooseService {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+
+    .listService {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      .price-box {
+        margin: 20px;
+        width: 250px;
+        height: 350px;
+        padding: 30px;
+        border-radius: 5px;
+        background: rgba(11, 11, 11, 0.7);
+        display: flex;
+        flex-direction: column;
+        justify-content: space-around;
+        align-items: center;
+        justify-content: center;
+        .icon {
+          font-size: 50px;
+          margin-bottom: 15px;
+        }
+        .months {
+          font-size: 18px;
+          font-weight: 600;
+          margin-bottom: 5px;
+        }
+        .price {
+          align-items: center;
+          display: flex;
+          flex-wrap: wrap;
+          justify-content: center;
+          line-height: 1;
+          width: 100%;
+          b {
+            font-size: 50px;
+            font-weight: 800;
+            display: inline-block;
+          }
+          span {
+            display: inline-block;
+            font-size: 22px;
+            margin-left: 6px;
+          }
+          small {
+            display: block;
+            width: 100%;
+            font-weight: 400;
+            text-align: center;
+          }
+        }
+        .discount {
+          background: white;
+          border-radius: 32px;
+          color: var(--theme-color);
+          display: inline-block;
+          font-weight: 600;
+          height: 32px;
+          line-height: 32px;
+          margin-bottom: 10px;
+          margin-top: 15px;
+          padding: 0 20px;
+        }
+
+        .note {
+          display: block;
+          width: 100%;
+          text-align: center;
+          line-height: 1.5;
+          u {
+            font-weight: 600;
+            text-decoration: line-through;
+            color: gray;
+          }
+        }
+
+        button {
+          height: 40px;
+          border-radius: 5px;
+          background-color: var(--theme-color);
+          color: white;
+          border: none;
+          font-size: 18px;
+          font-weight: 500;
+          margin-bottom: 20px;
+          margin-top: 20px;
+          cursor: pointer;
+        }
+        .desc {
+          font-size: 14px;
+          text-align: center;
+        }
+      }
+    }
+  }
+}

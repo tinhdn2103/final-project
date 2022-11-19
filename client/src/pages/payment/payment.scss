@@ -1,0 +1,60 @@
+.payment {
+  width: 100vw;
+  height: 100vh;
+  background: linear-gradient(
+      to bottom,
+      rgba(0, 0, 0, 0) 0%,
+      rgba(0, 0, 0, 1) 100%
+    ),
+    url("https://firebasestorage.googleapis.com/v0/b/movie-web-fadf1.appspot.com/o/background.jpg?alt=media&token=6217dd99-c3e7-48be-8c1c-6ce986a55711");
+
+  background-size: cover;
+  position: relative;
+  .top {
+    .wrapper {
+      padding: 20px 50px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+
+      .logo {
+        height: 40px;
+      }
+    }
+    .logoutButton {
+      background-color: var(--theme-color);
+      border: none;
+      color: white;
+      border-radius: 5px;
+      padding: 5px 15px;
+      font-size: 16px;
+      font-weight: 500;
+      cursor: pointer;
+    }
+  }
+  .container {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    color: white;
+
+    button {
+      height: 40px;
+      border-radius: 5px;
+      background-color: var(--theme-color);
+      color: white;
+      border: none;
+      font-size: 18px;
+      font-weight: 500;
+      margin-top: 20px;
+      padding: 10px 10px;
+      cursor: pointer;
+    }
+  }
+}

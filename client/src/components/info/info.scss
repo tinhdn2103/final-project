@@ -1,0 +1,195 @@
+.info-wrapper {
+  background-color: var(--main-color);
+  position: relative;
+  width: 100%;
+
+  .info {
+    display: flex;
+    justify-content: space-between;
+    .info-left {
+      margin-left: 50px;
+      margin-top: 50px;
+      .title {
+        font-size: 1.5rem;
+        margin-bottom: 0.75rem;
+        display: flex;
+        color: white;
+      }
+      .views-rating {
+        display: flex;
+        margin-bottom: 0.75rem;
+        .views {
+          margin-right: 0.75rem;
+
+          color: white;
+          span {
+            margin-right: 0.75rem;
+          }
+        }
+        .rating {
+          display: flex;
+          .rating-summary {
+            color: white;
+
+            margin-right: 0.75rem;
+          }
+          .rating-selection {
+            cursor: pointer;
+          }
+        }
+      }
+      .tags-group {
+        align-items: center;
+        margin-bottom: 0.75rem;
+        .tags {
+          margin-right: 1rem;
+
+          color: white;
+        }
+      }
+      h2 {
+        margin-bottom: 0.75rem;
+        font-size: 16px;
+        font-weight: bold;
+        color: white;
+      }
+      .info-desc {
+        color: white;
+      }
+    }
+    .info-right {
+      display: flex;
+      margin-right: 50px;
+      .comments {
+        margin-right: 1.25rem;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        text-decoration: none;
+        color: var(--theme-color);
+        cursor: pointer;
+        color: white;
+        .icon {
+          position: relative;
+          .count {
+            position: absolute;
+            top: -0.125rem;
+            right: 0;
+            text-align: right;
+            background-color: var(--main-color);
+            font-size: 1rem;
+          }
+        }
+      }
+      .share {
+        display: flex;
+        flex-direction: column;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        text-decoration: none;
+        color: var(--theme-color);
+        cursor: pointer;
+        color: white;
+      }
+    }
+  }
+
+  .list {
+    margin-top: 50px;
+    .list-header {
+      color: white;
+      font-size: 20px;
+      font-weight: 500;
+      margin-left: 50px;
+    }
+    .list-actor {
+      margin-top: 10px;
+      display: flex;
+      .actor {
+        justify-content: center;
+        align-items: center;
+        display: flex;
+        flex-direction: column;
+        margin-left: 50px;
+        img {
+          width: 100px;
+          height: 100px;
+          border-radius: 50%;
+          object-fit: cover;
+        }
+        span {
+          color: white;
+          margin-top: 10px;
+        }
+      }
+    }
+  }
+
+  .comment-section {
+    margin-left: 50px;
+    margin-top: 100px;
+
+    .section-header {
+      color: white;
+    }
+    .comment-form {
+      padding-left: 10px;
+      margin-top: 10px;
+
+      display: flex;
+      img {
+        margin-right: 15px;
+        width: 50px;
+        height: 50px;
+        object-fit: cover;
+        border-radius: 50%;
+      }
+
+      textarea {
+        border: none;
+        width: 100%;
+        color: white;
+        background-color: var(--main-color);
+        resize: none;
+        &:focus {
+          outline: none;
+          border-bottom: 1px solid white;
+        }
+      }
+    }
+    .comment-item {
+      padding-left: 10px;
+      display: flex;
+      margin-top: 30px;
+      align-items: center;
+
+      img {
+        margin-right: 15px;
+        width: 50px;
+        height: 50px;
+        object-fit: cover;
+        border-radius: 50%;
+      }
+      .content {
+        color: white;
+
+        span {
+          font-size: 0.75rem;
+          font-weight: bold;
+        }
+        p {
+          width: 1000px;
+          font-size: 0.75rem;
+          margin-top: 10px;
+          line-height: 1rem;
+        }
+      }
+      .time {
+        color: white;
+        font-size: 0.75rem;
+      }
+    }
+  }
+}

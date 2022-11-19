@@ -1,0 +1,72 @@
+.notification-wrapper {
+  position: fixed;
+  top: 10px;
+  right: 10px;
+  width: 300px;
+  z-index: 1001;
+}
+
+.notification-item {
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+  border-radius: 10px;
+  overflow: hidden;
+  margin-bottom: 20px;
+  animation: SlideLeft 0.4s;
+  animation-fill-mode: forwards;
+  width: 300px;
+  .content-noti {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    .close-noti {
+      cursor: pointer;
+      padding: 10px;
+    }
+    p {
+      margin: 0;
+      padding: 10px;
+    }
+  }
+
+  .bar {
+    height: 5px;
+  }
+}
+
+@keyframes SlideLeft {
+  0% {
+    margin-left: 120%;
+  }
+
+  100% {
+    margin-left: 0;
+  }
+}
+
+@keyframes SlideRight {
+  0% {
+    margin-left: 0;
+  }
+
+  100% {
+    margin-left: 120%;
+  }
+}
+.exit {
+  animation: SlideRight 0.4s;
+  animation-fill-mode: forwards;
+}
+
+.success {
+  background-color: white;
+  .bar {
+    background-color: #65d266;
+  }
+}
+
+.error {
+  background-color: white;
+  .bar {
+    background-color: red;
+  }
+}
