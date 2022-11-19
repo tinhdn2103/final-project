@@ -2,9 +2,9 @@ POST http://localhost:8800/api/auth/register
 Content-Type: application/json
 
 {
-    "username": "thanhdt",
-    "email": "thanhdt@gmail.com",
-    "password": "thanhdt"
+    "username": "ngocdb",
+    "email": "ngocdb@gmail.com",
+    "password": "ngocdb"
 }
 
 ###
@@ -13,8 +13,8 @@ POST http://localhost:8800/api/auth/login
 Content-Type: application/json
 
 {
-    "email": "tamdt@gmail.com",
-    "password": "tamdt"
+    "email": "tuanpt@gmail.com",
+    "password": "tuanpt"
 }
 
 ###
@@ -199,4 +199,103 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYzM2IyZDg4Z
 
 {
 
+}
+
+###
+
+POST http://localhost:8800/api/eps
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYzM2IyZDg4ZWEyNTNlOTE5NTg2ODA0ZCIsImlzQWRtaW4iOnRydWUsImlhdCI6MTY2NTIxMjQ5NSwiZXhwIjoxNjY1NjQ0NDk1fQ.C_ZGyYxKuuKp14FN9Fev31Zw_kJYv6KqkS7c-qI-TYA
+
+{
+    "movie": "633dc3b4f611a788116b43d8",
+    "ep": "1",
+    "title": "Nope 1",
+    "desc": "Nope tập 1",
+    "video": "https://firebasestorage.googleapis.com/v0/b/movie-web-fadf1.appspot.com/o/video%2F633dc3b4f611a788116b43d8%2F1665247770721NOPE%20-%20Official%20Trailer.mp4?alt=media&token=d4822c5d-d434-4e2a-b8d3-32d5cec58912"
+}
+
+###
+
+POST http://localhost:8800/api/userRating
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYzM2U4YmEyYmMzYTQwMzkxZGI0NWE1YyIsImlzQWRtaW4iOmZhbHNlLCJpYXQiOjE2NjUxNjA4MDMsImV4cCI6MTY2NTU5MjgwM30.sA74unLHUV02FTVUtjVyQOOeSUZ-r2xW_jfwYo3iJXQ
+
+{
+    "movie": "633dc3b4f611a788116b43d8",
+    "user": "633e900bbc3a40391db45a7f",
+    "rating": 5
+}
+
+###
+
+POST http://localhost:8800/api/service
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYzM2U4YmEyYmMzYTQwMzkxZGI0NWE1YyIsImlzQWRtaW4iOmZhbHNlLCJpYXQiOjE2NjUxNjA4MDMsImV4cCI6MTY2NTU5MjgwM30.sA74unLHUV02FTVUtjVyQOOeSUZ-r2xW_jfwYo3iJXQ
+
+{
+    "name": "Cao cấp",
+    "desc": "Độ phân giải 4K+HDR",
+    "price": 260000
+}
+
+###
+
+GET http://localhost:8800/api/trending/find
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYzM2U4YmEyYmMzYTQwMzkxZGI0NWE1YyIsImlzQWRtaW4iOmZhbHNlLCJpYXQiOjE2NjY3Nzg2OTAsImV4cCI6MTY2NzIxMDY5MH0.SzMFU1OL_bHhyyfQ8V8F9TwdeOHcQyAthbSCCpwuaao
+
+{
+    
+}
+
+
+###
+
+GET http://localhost:8800/api/recommend/findByMovie/6354e362c834f95698ef0221
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYzM2U4YmEyYmMzYTQwMzkxZGI0NWE1YyIsImlzQWRtaW4iOmZhbHNlLCJpYXQiOjE2NjYyNzE4NzMsImV4cCI6MTY2NjcwMzg3M30.ygC-x-D8EkWmnhICxYMoxXy1GjLIim2lJwS1ExOqNFE
+
+{
+    
+}
+
+###
+
+GET http://localhost:8800/api/recommend/findByUser
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYzM2U5MDBiYmMzYTQwMzkxZGI0NWE3ZiIsImlzQWRtaW4iOmZhbHNlLCJpYXQiOjE2NjY2MDIzNDksImV4cCI6MTY2NzAzNDM0OX0.pFA7kwPqX-tqdKxY-eK5h7NLNl5JaLSfyIoiwwgefB0
+
+{
+    
+}
+
+###
+
+GET http://localhost:8800/api/movies/search?q=Wanda
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYzM2U4YmEyYmMzYTQwMzkxZGI0NWE1YyIsImlzQWRtaW4iOmZhbHNlLCJpYXQiOjE2NjY3Nzg2OTAsImV4cCI6MTY2NzIxMDY5MH0.SzMFU1OL_bHhyyfQ8V8F9TwdeOHcQyAthbSCCpwuaao
+
+{
+    
+}
+
+
+###
+
+GET http://localhost:8800/api/users/bymonth
+Content-Type: application/json
+
+{
+    
+}
+
+###
+
+GET http://localhost:8800/api/payment/stats
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYzM2FmOGJmMTEyODM5NWFlMjAwMzdlNSIsImlzQWRtaW4iOnRydWUsImlhdCI6MTY2ODM1MzIxMywiZXhwIjoxNjY4Nzg1MjEzfQ.j_aU_s0CQqlKs85yFwcntXHEAEBuwwjF_i1Hm_9833M
+
+{
+    
 }
