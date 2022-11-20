@@ -36,7 +36,7 @@ const Watch = () => {
         });
 
         if (res.data) {
-          dispatch(setCurrentTime(res.data.currentTime)); // set state not synchoronized
+          dispatch(setCurrentTime(res.data.currentTime)); //// set state not synchoronized
           dispatch(setCurrentEp(res.data.ep));
         } else {
           dispatch(setCurrentEp(1));
