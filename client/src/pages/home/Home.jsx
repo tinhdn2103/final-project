@@ -6,6 +6,7 @@ import "./home.scss";
 import { useSelector, useDispatch } from "react-redux";
 import {
   getListRecommend,
+  getListRecommendByCB,
   getListTrending,
   getRandomLists,
   listsSelector,
@@ -14,7 +15,8 @@ import ListSpecial from "../../components/list/ListSpecial";
 
 const Home = ({ type }) => {
   const [genre, setGenre] = useState(null);
-  const { lists, listRecommend, listTrending } = useSelector(listsSelector);
+  const { lists, listRecommend, listTrending, listRecommendByCB } =
+    useSelector(listsSelector);
   const dispatch = useDispatch();
   useEffect(() => {
     dispatch(getRandomLists({ type, genre }));
@@ -23,14 +25,20 @@ const Home = ({ type }) => {
   useEffect(() => {
     dispatch(getListRecommend());
     dispatch(getListTrending());
+    dispatch(getListRecommendByCB());
   }, [dispatch]);
 
   return (
     <div className="home">
       <Navbar setGenre={setGenre} />
       <Featured type={type} setGenre={setGenre} />
-      <ListSpecial list={listTrending} title={"Xu hướng"} />
-      <ListSpecial list={listRecommend} title={"Đề xuất cho bạn"} />
+      {!type && <ListSpecial list={listTrending} title={"Xu hướng"} />}
+      {!type && (
+        <ListSpecial list={listRecommend} title={"Có thể bạn sẽ thích"} />
+      )}
+      {!type && (
+        <ListSpecial list={listRecommendByCB} title={"Đề xuất cho bạn"} />
+      )}
       {lists.map((list) => (
         <List key={list._id} list={list} />
       ))}

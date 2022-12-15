@@ -38,7 +38,7 @@ const Service = () => {
             src="https://firebasestorage.googleapis.com/v0/b/movie-web-fadf1.appspot.com/o/logo_nobg.png?alt=media&token=1de4bd0b-097f-4aac-ad2d-b15e4f8d3608"
             alt=""
           />
-          <button className="loginButton">Đăng nhập</button>
+          <button className="loginButton">Đăng xuất</button>
         </div>
       </div>
       <div className="chooseService">

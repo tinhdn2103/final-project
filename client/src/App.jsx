@@ -24,11 +24,11 @@ function App() {
   useEffect(() => {
     dispatch(setUser());
   }, [dispatch]);
-  // useEffect(() => {
-  //   if (user) {
-  //     dispatch(checkActive());
-  //   }
-  // }, [user]);
+  useEffect(() => {
+    if (user) {
+      dispatch(checkActive());
+    }
+  }, [user]);
 
   return (
     <>
@@ -41,6 +41,19 @@ function App() {
             element={
               user && isActive ? (
                 <Home />
+              ) : user && !isActive ? (
+                <Service />
+              ) : (
+                <Navigate to="/register" />
+              )
+            }
+          />
+          <Route
+            exact
+            path="/search"
+            element={
+              user && isActive ? (
+                <Search />
               ) : user && !isActive ? (
                 <Service />
               ) : (
@@ -64,7 +77,7 @@ function App() {
                   <Route path="/series" element={<Home type="series" />} />
                   <Route path="/watch" element={<Watch />} />
                   <Route path="/service" element={<Service />} />
-                  <Route path="/search" element={<Search />} />
+                  {/* <Route path="/search" element={<Search />} /> */}
                   <Route path="/myList" element={<MyList />} />
                 </>
               )}

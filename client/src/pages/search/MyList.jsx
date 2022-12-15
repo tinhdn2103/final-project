@@ -20,6 +20,9 @@ const Search = () => {
   return (
     <div className="search">
       <Navbar />
+      <div className="title-search">
+        <h3>Danh sách của tôi</h3>
+      </div>
       <div className="listSearch">
         {myList.map((item, index) => (
           <SearchItem key={index} index={index} item={item.movie} />

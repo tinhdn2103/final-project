@@ -3,9 +3,13 @@ import "./featured.scss";
 import { FaPlay } from "react-icons/fa";
 import { HiOutlineInformationCircle } from "react-icons/hi";
 import axios from "../../apiClient";
+import { Link } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { setMovie } from "../../store/reducers/movieSlice";
 
 const Featured = ({ type, setGenre }) => {
   const [content, setContent] = useState({});
+  const dispatch = useDispatch();
 
   useEffect(() => {
     const getRandomContent = async () => {
@@ -54,10 +58,16 @@ const Featured = ({ type, setGenre }) => {
         <span className="desc">{content.desc}</span>
 
         <div className="buttons">
-          <button className="play">
-            <FaPlay />
-            <span>Phát</span>
-          </button>
+          <Link
+            to={"/watch"}
+            className="link"
+            onClick={() => dispatch(setMovie(content))}
+          >
+            <button className="play">
+              <FaPlay />
+              <span>Phát</span>
+            </button>
+          </Link>
           <button className="more">
             <HiOutlineInformationCircle />
             <span>Thông tin khác</span>

@@ -19,7 +19,7 @@ const ListSpecial = ({ list, title }) => {
       setSlideNumber(slideNumber - 1);
       listRef.current.style.transform = `translateX(${210 + distance}px)`;
     }
-    if (direction === "right" && slideNumber < 10 - clickLimit) {
+    if (direction === "right" && slideNumber < list.length - clickLimit) {
       setSlideNumber(slideNumber + 1);
       listRef.current.style.transform = `translateX(${-210 + distance}px)`;
     }
@@ -28,20 +28,24 @@ const ListSpecial = ({ list, title }) => {
     <div className="list">
       <span className="listTitle">{title}</span>
       <div className="wrapper">
-        <MdArrowBackIosNew
-          className="sliderArrow left"
-          onClick={() => handleClick("left")}
-          style={{ display: !isMoved && "none" }}
-        />
+        {slideNumber > 0 && (
+          <MdArrowBackIosNew
+            className="sliderArrow left"
+            onClick={() => handleClick("left")}
+            style={{ display: !isMoved && "none" }}
+          />
+        )}
         <div className="container" ref={listRef}>
           {list.map((item, index) => (
             <ListItem key={index} index={index} item={item} />
           ))}
         </div>
-        <MdArrowForwardIos
-          className="sliderArrow right"
-          onClick={() => handleClick("right")}
-        />
+        {slideNumber < list.length - clickLimit && (
+          <MdArrowForwardIos
+            className="sliderArrow right"
+            onClick={() => handleClick("right")}
+          />
+        )}
       </div>
     </div>
   );

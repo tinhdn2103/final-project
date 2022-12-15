@@ -19,12 +19,12 @@ apiClient.interceptors.response.use(
     return response;
   },
   (error) => {
-    if (
-      error.response.data.message === "Token is not valid!" ||
-      error.response.data.message === "Account is not active!"
-    ) {
-      window.location.href = "http://localhost:3000";
-    }
+    // if (
+    //   error.response.data.message === "Token is not valid!" ||
+    //   error.response.data.message === "Account is not active!"
+    // ) {
+    window.location.href = "http://localhost:3000";
+    // }
 
     return Promise.reject(error);
   }

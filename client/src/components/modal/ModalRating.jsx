@@ -16,7 +16,6 @@ const ModalRating = ({ setOpenModal }) => {
   const [rate, setRate] = useState(0);
   const handleRating = () => {
     const userRating = async () => {
-      setOpenModal(false);
       try {
         const res = await axios.post("/userRating", {
           movie: movie._id,
@@ -29,6 +28,7 @@ const ModalRating = ({ setOpenModal }) => {
       }
     };
     userRating();
+    setOpenModal(false);
   };
 
   return (

@@ -19,7 +19,7 @@ const authSlice = createSlice({
     user: null,
     isFetching: false,
     error: false,
-    isActive: true,
+    isActive: false,
   },
   reducers: {
     //logout

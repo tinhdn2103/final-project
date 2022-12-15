@@ -44,11 +44,26 @@ export const getListTrending = createAsyncThunk(
   }
 );
 
+// get list recommend
+
+export const getListRecommendByCB = createAsyncThunk(
+  "lists/getListRecommendByCB",
+  async () => {
+    try {
+      const res = await axios.get("recommend/findByCB");
+      return res.data;
+    } catch (error) {
+      console.log(error);
+    }
+  }
+);
+
 const listsSlice = createSlice({
   name: "lists",
   initialState: {
     lists: [],
     listRecommend: [],
+    listRecommendByCB: [],
     listTrending: [],
   },
   reducers: {},
@@ -60,6 +75,10 @@ const listsSlice = createSlice({
     //getListRecommend
     [getListRecommend.fulfilled]: (state, action) => {
       state.listRecommend = action.payload;
+    },
+    //getListRecommendByCB
+    [getListRecommendByCB.fulfilled]: (state, action) => {
+      state.listRecommendByCB = action.payload;
     },
     //getListTrending
     [getListTrending.fulfilled]: (state, action) => {
@@ -77,6 +96,7 @@ const listsReducer = listsSlice.reducer;
 export const listsSelector = (state) => ({
   lists: state.listsReducer.lists,
   listRecommend: state.listsReducer.listRecommend,
+  listRecommendByCB: state.listsReducer.listRecommendByCB,
   listTrending: state.listsReducer.listTrending,
 });
 
