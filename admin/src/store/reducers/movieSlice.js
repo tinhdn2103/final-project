@@ -66,7 +66,6 @@ const movieSlice = createSlice({
     //login
 
     [getMovies.pending]: (state, action) => {
-      state.movies = null;
       state.isFetching = true;
       state.error = false;
       console.log("Get movie start!");

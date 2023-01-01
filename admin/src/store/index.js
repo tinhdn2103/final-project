@@ -4,6 +4,7 @@ import movieReducer from "./reducers/movieSlice";
 import listReducer from "./reducers/listSlice";
 import actorMovieReducer from "./reducers/actorMovieSlice";
 import epReducer from "./reducers/epSlice";
+import listMovieReducer from "./reducers/listMovieSlice";
 // Store
 const store = configureStore({
   reducer: {
@@ -12,6 +13,7 @@ const store = configureStore({
     listReducer,
     actorMovieReducer,
     epReducer,
+    listMovieReducer,
   },
 });
 

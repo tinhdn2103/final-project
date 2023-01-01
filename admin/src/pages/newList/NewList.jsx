@@ -1,36 +1,35 @@
 import React, { useEffect, useState } from "react";
 import "./newList.css";
 import { useNavigate } from "react-router-dom";
-
-import { getMovies, movieSelector } from "../../store/reducers/movieSlice";
-import { useDispatch, useSelector } from "react-redux";
-import { createList } from "../../store/reducers/listSlice";
+import axios from "axios";
 
 const NewList = () => {
   const [list, setList] = useState(null);
-  const navigate = useNavigate();
-  const { movies } = useSelector(movieSelector);
-  const dispatch = useDispatch();
-  const dispatchMovie = useDispatch();
-
-  useEffect(() => {
-    dispatchMovie(getMovies());
-  }, [dispatchMovie]);
 
   const handleChange = (e) => {
     const value = e.target.value;
     setList({ ...list, [e.target.name]: value });
   };
-
-  const handleSelect = (e) => {
-    let value = Array.from(e.target.selectedOptions, (option) => option.value);
-    setList({ ...list, [e.target.name]: value });
-  };
+  const navigate = useNavigate();
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    dispatch(createList(list));
-    navigate("/lists");
+    const createList = async () => {
+      try {
+        const res = await axios.post("/lists", list, {
+          headers: {
+            Authorization:
+              "Bearer " + JSON.parse(localStorage.getItem("user")).accessToken,
+          },
+        });
+        navigate("/addListMovie/" + res.data._id, {
+          state: { list: res.data },
+        });
+      } catch (error) {
+        console.log(error);
+      }
+    };
+    createList();
   };
 
   return (
@@ -66,25 +65,7 @@ const NewList = () => {
             </select>
           </div>
         </div>
-        <div className="formRight">
-          <div className="addProductItem">
-            <label>Danh sách phim</label>
-            {movies && (
-              <select
-                multiple
-                name="content"
-                onChange={handleSelect}
-                style={{ height: "280px", width: "300px" }}
-              >
-                {movies.map((movie) => (
-                  <option key={movie._id} value={movie._id}>
-                    {movie.title}
-                  </option>
-                ))}
-              </select>
-            )}
-          </div>
-        </div>
+
         <button className="addListButton" onClick={handleSubmit}>
           Tạo
         </button>

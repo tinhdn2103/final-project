@@ -1,7 +1,6 @@
 const router = require("express").Router();
 const ActorMovie = require("../models/ActorMovie");
 const verify = require("../verifyToken");
-const { spawn } = require("child_process");
 
 //create
 
@@ -11,18 +10,7 @@ router.post("/", verify, async (req, res) => {
     try {
       const savedActorMovie = await newActorMovie.save();
       await savedActorMovie.populate("actor");
-
-      const py = spawn("python", ["vectorizerMovie.py"]);
-      py.stdout.on("data", async (data) => {
-        console.error(`stdout: ${data}`);
-      });
-      py.stderr.on("data", (data) => {
-        console.error(`stderr: ${data}`);
-      });
-      py.on("close", (code) => {
-        console.log(`child process exited with code ${code}`);
-      });
-
+      const response = await axios.get("http://127.0.0.1:5000/cb/fit");
       res.status(201).json(savedActorMovie);
     } catch (err) {
       res.status(500).json(err);

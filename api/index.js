@@ -18,10 +18,8 @@ const orderRoute = require("./routes/order");
 const trendingRoute = require("./routes/trending");
 const recommendRoute = require("./routes/recommend");
 const myListRoute = require("./routes/myList");
-const { spawn } = require("child_process");
-const CountView = require("./models/CountView");
-const UserRating = require("./models/UserRating");
-const Comment = require("./models/Comment");
+const listMovieRoute = require("./routes/listMovie");
+const axios = require("axios");
 
 dotenv.config();
 
@@ -39,73 +37,9 @@ connectDB();
 
 const trending = async () => {
   try {
-    const d = new Date();
-    const date = new Date(d.getFullYear(), d.getMonth(), d.getDate() - 30);
-    await CountView.aggregate([
-      { $match: { createdAt: { $gte: date } } },
-      {
-        $group: {
-          _id: "$movie",
-          views: { $sum: 1 },
-        },
-      },
-      {
-        $merge: {
-          into: "movieStat",
-          on: "_id",
-          whenMatched: "merge",
-          whenNotMatched: "insert",
-        },
-      },
-    ]);
-    await UserRating.aggregate([
-      { $match: { createdAt: { $gte: date } } },
-      {
-        $group: {
-          _id: "$movie",
-          numRate: { $sum: 1 },
-          rating: { $avg: "$rating" },
-        },
-      },
-      {
-        $merge: {
-          into: "movieStat",
-          on: "_id",
-          whenMatched: "merge",
-          whenNotMatched: "insert",
-        },
-      },
-    ]);
-    await Comment.aggregate([
-      { $match: { createdAt: { $gte: date } } },
-      {
-        $group: {
-          _id: "$movie",
-          comments: { $sum: 1 },
-        },
-      },
-      {
-        $merge: {
-          into: "movieStat",
-          on: "_id",
-          whenMatched: "merge",
-          whenNotMatched: "insert",
-        },
-      },
-    ]);
-    const py = spawn("python", ["trendingList.py"]);
-    py.stdout.on("data", (data) => {
-      console.log(`stdout: ${data}`);
-    });
-
-    py.stderr.on("data", (data) => {
-      console.error(`stderr: ${data}`);
-    });
-    py.on("close", (code) => {
-      console.log(`child process exited with code ${code}`);
-    });
-  } catch (err) {
-    console.log(err);
+    const response = await axios.get("http://127.0.0.1:5000/trending");
+  } catch (error) {
+    console.log(error);
   }
 };
 
@@ -131,6 +65,7 @@ app.use("/api/order", orderRoute);
 app.use("/api/trending", trendingRoute);
 app.use("/api/recommend", recommendRoute);
 app.use("/api/myList", myListRoute);
+app.use("/api/listMovie", listMovieRoute);
 
 const PORT = process.env.PORT || 8800;
 app.listen(PORT, () => {

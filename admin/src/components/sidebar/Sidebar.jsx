@@ -41,10 +41,10 @@ const Sidebar = () => {
               <Timeline className="sidebarIcon" />
               Phân tích
             </li>
-            <li className="sidebarListItem">
+            {/* <li className="sidebarListItem">
               <TrendingUp className="sidebarIcon" />
               Bán hàng
-            </li>
+            </li> */}
           </ul>
         </div>
         <div className="sidebarMenu">
@@ -80,7 +80,7 @@ const Sidebar = () => {
             </Link>
             <li className="sidebarListItem">
               <BarChart className="sidebarIcon" />
-              Báo cáo
+              Giao dịch
             </li>
           </ul>
         </div>

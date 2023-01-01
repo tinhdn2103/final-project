@@ -1,22 +1,19 @@
 const router = require("express").Router();
-const { spawn } = require("child_process");
 const verify = require("../verifyToken");
+const Trending = require("../models/Trending");
 
 router.get("/find", verify, async (req, res) => {
-  const py = spawn("python", ["getTrendingList.py"]);
-  py.stdout.on("data", async (data) => {
-    data = data.toString();
-    data = data.replace(/'/g, '"');
-    data = JSON.parse(data);
-    res.status(200).json(data);
-  });
-
-  py.stderr.on("data", (data) => {
-    console.error(`stderr: ${data}`);
-    res.status(500).json(`stderr: ${data}`);
-  });
-  py.on("close", (code) => {
-    console.log(`child process exited with code ${code}`);
-  });
+  try {
+    const movies = await Trending.find(
+      {},
+      { movie: 1, _id: 0 },
+      { sort: { timestamp: -1, score: -1 } }
+    ).limit(10);
+    result = [];
+    movies.map((item) => result.push(item.movie));
+    res.status(200).json(result);
+  } catch (err) {
+    res.status(500).json(err);
+  }
 });
 module.exports = router;

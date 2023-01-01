@@ -3,7 +3,7 @@ const UserRating = require("../models/UserRating");
 const verify = require("../verifyToken");
 var mongoose = require("mongoose");
 const Movie = require("../models/Movie");
-const { spawn } = require("child_process");
+const axios = require("axios");
 //create
 
 router.post("/", verify, async (req, res) => {
@@ -33,31 +33,7 @@ router.post("/", verify, async (req, res) => {
       },
       { new: true }
     );
-
-    const py = spawn("python", ["movieRecommend.py"]);
-    py.stdout.on("data", (data) => {
-      console.log(`stdout: ${data}`);
-    });
-
-    py.stderr.on("data", (data) => {
-      console.error(`stderr: ${data}`);
-    });
-    py.on("close", (code) => {
-      console.log(`child process exited with code ${code}`);
-    });
-
-    const py2 = spawn("python", ["movieRecommendByCB.py"]);
-    py2.stdout.on("data", (data) => {
-      console.log(`stdout: ${data}`);
-    });
-
-    py2.stderr.on("data", (data) => {
-      console.error(`stderr: ${data}`);
-    });
-    py2.on("close", (code) => {
-      console.log(`child process exited with code ${code}`);
-    });
-
+    const response = await axios.get("http://127.0.0.1:5000/fit");
     res.status(200).json(result);
   } catch (error) {
     res.status(500).json(err);

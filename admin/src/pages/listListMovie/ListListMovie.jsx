@@ -1,6 +1,7 @@
 import "./listListMovie.css";
 import { DataGrid } from "@material-ui/data-grid";
 import { DeleteOutline } from "@material-ui/icons";
+import { Add } from "@material-ui/icons";
 import { Link } from "react-router-dom";
 import { useEffect } from "react";
 import React from "react";
@@ -42,6 +43,23 @@ const ListListMovie = () => {
               className="productListDelete"
               onClick={() => handleDelete(params.row._id)}
             />
+          </>
+        );
+      },
+    },
+    {
+      field: "listMovie",
+      headerName: "Thêm phim",
+      width: 90,
+      renderCell: (params) => {
+        return (
+          <>
+            <Link
+              to={"/addListMovie/" + params.row._id}
+              state={{ list: params.row }}
+            >
+              <Add className="addMovieBtn" />
+            </Link>
           </>
         );
       },

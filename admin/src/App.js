@@ -23,6 +23,7 @@ import NewList from "./pages/newList/NewList";
 import AddActor from "./pages/addActor/AddActor";
 import AddVideo from "./pages/addVideo/AddVideo";
 import { useEffect } from "react";
+import AddListMovie from "./pages/addListMovie/AddListMovie";
 
 function App() {
   const { user } = useSelector(authSelector);
@@ -61,6 +62,7 @@ function App() {
               <Route path="/newList" element={<NewList />} />
               <Route path="/addActor/:movieId" element={<AddActor />} />
               <Route path="/addVideo/:movieId" element={<AddVideo />} />
+              <Route path="/addListMovie/:listId" element={<AddListMovie />} />
             </Routes>
           </div>
         </>

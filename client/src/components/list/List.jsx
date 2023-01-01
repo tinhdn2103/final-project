@@ -2,6 +2,8 @@ import React, { useRef, useState } from "react";
 import "./list.scss";
 import { MdArrowBackIosNew, MdArrowForwardIos } from "react-icons/md";
 import ListItem from "../listItem/ListItem";
+import { useEffect } from "react";
+import axios from "../../apiClient";
 
 const List = ({ list }) => {
   const [isMoved, setIsMoved] = useState(false);
@@ -10,7 +12,21 @@ const List = ({ list }) => {
 
   const [clickLimit, setClickLimit] = useState(window.innerWidth / 210);
 
+  const [listMovies, setListMovies] = useState([]);
+
   const listRef = useRef();
+
+  useEffect(() => {
+    const getMovies = async () => {
+      try {
+        const res = await axios.get("/listMovie/list/" + list._id);
+        setListMovies(res.data);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+    getMovies();
+  }, [list]);
 
   const handleClick = (direction) => {
     setIsMoved(true);
@@ -19,10 +35,7 @@ const List = ({ list }) => {
       setSlideNumber(slideNumber - 1);
       listRef.current.style.transform = `translateX(${210 + distance}px)`;
     }
-    if (
-      direction === "right" &&
-      slideNumber < list.content.length - clickLimit
-    ) {
+    if (direction === "right" && slideNumber < listMovies.length - clickLimit) {
       setSlideNumber(slideNumber + 1);
       listRef.current.style.transform = `translateX(${-210 + distance}px)`;
     }
@@ -39,11 +52,11 @@ const List = ({ list }) => {
           />
         )}
         <div className="container" ref={listRef}>
-          {list.content.map((item, index) => (
-            <ListItem key={index} index={index} item={item} />
+          {listMovies.map((item, index) => (
+            <ListItem key={index} index={index} item={item.movie._id} />
           ))}
         </div>
-        {slideNumber < list.content.length - clickLimit && (
+        {slideNumber < listMovies.length - clickLimit && (
           <MdArrowForwardIos
             className="sliderArrow right"
             onClick={() => handleClick("right")}

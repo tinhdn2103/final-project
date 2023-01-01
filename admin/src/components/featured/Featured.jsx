@@ -79,12 +79,12 @@ const Featured = () => {
               </>
             ) : incomeFeatured.growth > 0 ? (
               <>
-                +{incomeFeatured.growth}
+                +{incomeFeatured.growth?.toFixed(2)}
                 <ArrowUpward className="featuredIcon" />
               </>
             ) : (
               <>
-                {incomeFeatured.growth}
+                {incomeFeatured.growth?.toFixed(2)}
                 <ArrowDownward className="featuredIcon negative" />
               </>
             )}

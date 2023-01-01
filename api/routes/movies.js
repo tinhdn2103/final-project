@@ -1,9 +1,7 @@
 const router = require("express").Router();
 const Movie = require("../models/Movie");
 const verify = require("../verifyToken");
-const { spawn } = require("child_process");
-const { exec } = require("child_process");
-const { PythonShell } = require("python-shell");
+const axios = require("axios");
 //create
 
 router.post("/", verify, async (req, res) => {
@@ -11,18 +9,7 @@ router.post("/", verify, async (req, res) => {
     const newMovie = new Movie(req.body);
     try {
       const savedMovie = await newMovie.save();
-
-      const py = spawn("python", ["vectorizerMovie.py"]);
-      py.stdout.on("data", async (data) => {
-        console.error(`stdout: ${data}`);
-      });
-      py.stderr.on("data", (data) => {
-        console.error(`stderr: ${data}`);
-      });
-      py.on("close", (code) => {
-        console.log(`child process exited with code ${code}`);
-      });
-
+      const response = await axios.get("http://127.0.0.1:5000/cb/fit");
       res.status(201).json(savedMovie);
     } catch (err) {
       res.status(500).json(err);
@@ -117,47 +104,16 @@ router.get("/", verify, async (req, res) => {
   }
 });
 
-//get list of type
-
 //search
-//get random
 
 router.get("/search", verify, async (req, res) => {
-  const title = req.query.q;
-  const py = spawn("python", ["search.py", title]);
-  py.stdout.on("data", async (data) => {
-    data = data.toString();
-    data = data.replace(/'/g, '"');
-    data = JSON.parse(data);
-    res.status(200).json(data);
-  });
-
-  py.stderr.on("data", (data) => {
-    console.error(`stderr: ${data}`);
-    res.status(500).json(`stderr: ${data}`);
-  });
-  py.on("close", (code) => {
-    console.log(`child process exited with code ${code}`);
-  });
-  // exec("python search.py " + title, (error, stdout, stderr) => {
-  //   if (error) {
-  //     res.status(500).json(error);
-  //     return;
-  //   }
-  //   if (stderr) {
-  //     res.status(500).json(stderr);
-  //     return;
-  //   }
-  //   data = stdout.toString();
-  //   data = data.replace(/'/g, '"');
-  //   data = JSON.parse(data);
-  //   res.status(200).json(data);
-  // });
-  // PythonShell.run("search.py", { args: [title] }, function (err, results) {
-  //   if (err) throw err;
-  //   // Results is an array consisting of messages collected during execution
-  //   console.log("results: ", results[0]);
-  // });
+  const q = req.query.q;
+  try {
+    const response = await axios.get("http://127.0.0.1:5000/cb/search?q=" + q);
+    return res.status(200).json(response.data);
+  } catch (error) {
+    console.log(error);
+  }
 });
 
 module.exports = router;

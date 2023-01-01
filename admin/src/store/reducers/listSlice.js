@@ -13,17 +13,6 @@ export const getLists = createAsyncThunk("list/getLists", async () => {
   return res.data;
 });
 
-//Create List
-export const createList = createAsyncThunk("list/createList", async (list) => {
-  const res = await axios.post("/lists", list, {
-    headers: {
-      Authorization:
-        "Bearer " + JSON.parse(localStorage.getItem("user")).accessToken,
-    },
-  });
-  return res.data;
-});
-
 //Delete List
 
 export const deleteList = createAsyncThunk("list/deleteList", async (id) => {
@@ -46,7 +35,6 @@ const listSlice = createSlice({
   reducers: {},
   extraReducers: {
     [getLists.pending]: (state, action) => {
-      state.lists = null;
       state.isFetching = true;
       state.error = false;
       console.log("Get list start!");
@@ -63,22 +51,6 @@ const listSlice = createSlice({
       console.log("Get list failure!");
     },
 
-    [createList.pending]: (state, action) => {
-      state.isFetching = true;
-      state.error = false;
-      console.log("Create list start!");
-    },
-    [createList.fulfilled]: (state, action) => {
-      // state.lists.push(action.payload);
-      state.isFetching = false;
-      state.error = false;
-      console.log("Create list success!");
-    },
-    [createList.rejected]: (state, action) => {
-      state.isFetching = false;
-      state.error = true;
-      console.log("Create list failure!");
-    },
     [deleteList.pending]: (state, action) => {
       state.isFetching = true;
       state.error = false;

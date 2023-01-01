@@ -64,9 +64,9 @@ const actorMovieSlice = createSlice({
 
     [deleteActorMovie.fulfilled]: (state, action) => {
       state.actors = state.actors.filter(
-        (movie) => movie._id !== action.payload
+        (actor) => actor._id !== action.payload
       );
-      console.log("Delete movie success!");
+      console.log("Delete actor movie success!");
     },
   },
 });
