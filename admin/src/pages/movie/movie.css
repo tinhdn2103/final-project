@@ -103,6 +103,7 @@
   border-radius: 10px;
   object-fit: cover;
   margin-right: 20px;
+  margin-bottom: 10px;
 }
 
 .productFormRight {
@@ -112,6 +113,7 @@
 }
 .productUpload {
   display: flex;
+  flex-direction: column;
   align-items: center;
 }
 
@@ -123,4 +125,23 @@
   color: white;
   font-weight: 600;
   cursor: pointer;
+  align-self: center;
+}
+.loader {
+  margin-left: 20px;
+  border: 5px solid white;
+  border-radius: 50%;
+  border-top: 5px solid var(--theme-color);
+  width: 16px;
+  height: 16px;
+  animation: spin 2s linear infinite;
+  align-self: center;
+}
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
 }

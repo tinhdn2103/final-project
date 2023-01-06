@@ -22,6 +22,7 @@ import List from "./pages/list/List";
 import NewList from "./pages/newList/NewList";
 import AddActor from "./pages/addActor/AddActor";
 import AddVideo from "./pages/addVideo/AddVideo";
+import StackNotifications from "./components/notifications/StackNotifications";
 import { useEffect } from "react";
 import AddListMovie from "./pages/addListMovie/AddListMovie";
 
@@ -33,41 +34,47 @@ function App() {
   }, [dispatch]);
 
   return (
-    <Router>
-      {!user && (
-        <>
-          <Routes>
-            <Route path="/" element={<Login />} />
-            <Route path="/login" element={<Login />} />
-          </Routes>
-        </>
-      )}
-
-      {user && (
-        <>
-          <Topbar />
-          <div className="container">
-            <Sidebar />
+    <>
+      <StackNotifications />
+      <Router>
+        {!user && (
+          <>
             <Routes>
-              <Route exact path="/" element={<Home />} />
-              <Route path="/login" element={<Navigate to="/" />} />
-              <Route path="/users" element={<UserList />} />
-              <Route path="/user/:userId" element={<User />} />
-              <Route path="/newUser" element={<NewUser />} />
-              <Route path="/movies" element={<MovieList />} />
-              <Route path="/movie/:movieId" element={<Movie />} />
-              <Route path="/newMovie" element={<NewMovie />} />
-              <Route path="/lists" element={<ListListMovie />} />
-              <Route path="/list/:listId" element={<List />} />
-              <Route path="/newList" element={<NewList />} />
-              <Route path="/addActor/:movieId" element={<AddActor />} />
-              <Route path="/addVideo/:movieId" element={<AddVideo />} />
-              <Route path="/addListMovie/:listId" element={<AddListMovie />} />
+              <Route path="/" element={<Login />} />
+              <Route path="/login" element={<Login />} />
             </Routes>
-          </div>
-        </>
-      )}
-    </Router>
+          </>
+        )}
+
+        {user && (
+          <>
+            <Topbar />
+            <div className="container">
+              <Sidebar />
+              <Routes>
+                <Route exact path="/" element={<Home />} />
+                <Route path="/login" element={<Navigate to="/" />} />
+                <Route path="/users" element={<UserList />} />
+                <Route path="/user/:userId" element={<User />} />
+                <Route path="/newUser" element={<NewUser />} />
+                <Route path="/movies" element={<MovieList />} />
+                <Route path="/movie/:movieId" element={<Movie />} />
+                <Route path="/newMovie" element={<NewMovie />} />
+                <Route path="/lists" element={<ListListMovie />} />
+                <Route path="/list/:listId" element={<List />} />
+                <Route path="/newList" element={<NewList />} />
+                <Route path="/addActor/:movieId" element={<AddActor />} />
+                <Route path="/addVideo/:movieId" element={<AddVideo />} />
+                <Route
+                  path="/addListMovie/:listId"
+                  element={<AddListMovie />}
+                />
+              </Routes>
+            </div>
+          </>
+        )}
+      </Router>
+    </>
   );
 }
 

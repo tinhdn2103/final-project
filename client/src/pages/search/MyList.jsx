@@ -25,7 +25,7 @@ const Search = () => {
       </div>
       <div className="listSearch">
         {myList.map((item, index) => (
-          <SearchItem key={index} index={index} item={item.movie} />
+          <SearchItem key={index} index={index} item={item.movie._id} />
         ))}
       </div>
     </div>

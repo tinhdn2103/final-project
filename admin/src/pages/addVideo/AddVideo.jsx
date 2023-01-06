@@ -1,7 +1,7 @@
 import "./addVideo.css";
 import { DataGrid } from "@material-ui/data-grid";
 import { DeleteOutline } from "@material-ui/icons";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import React from "react";
 import { useSelector, useDispatch } from "react-redux";
 import storage from "../../firebase";
@@ -12,6 +12,8 @@ import {
   epSelector,
   getEps,
 } from "../../store/reducers/epSlice";
+import { addNoti } from "../../store/reducers/notiSlice";
+import { v4 } from "uuid";
 
 const AddVideo = () => {
   const location = useLocation();
@@ -20,17 +22,20 @@ const AddVideo = () => {
 
   const dispatch = useDispatch();
 
-  const [ep, setEp] = useState({ movie: movie._id });
-
-  const [uploaded, setUploaded] = useState(false);
-  const [upload, setUpload] = useState(false);
+  // const [ep, setEp] = useState({ movie: movie._id });
+  const ep = useRef({ movie: movie._id });
 
   const [video, setVideo] = useState(null);
   const [progress, setProgress] = useState(0);
+  const [submit, setSubmit] = useState(false);
 
   useEffect(() => {
     dispatch(getEps(movie._id));
   }, [dispatch]);
+
+  useEffect(() => {
+    setSubmit(false);
+  }, [listEps]);
 
   const handleDelete = (id) => {
     dispatch(deleteEp(id));
@@ -38,12 +43,10 @@ const AddVideo = () => {
 
   const handleChange = (e) => {
     const value = e.target.value;
-    setEp({ ...ep, [e.target.name]: value });
+    ep.current = { ...ep.current, [e.target.name]: value };
   };
 
-  const handleUpload = (e) => {
-    e.preventDefault();
-    setUpload(true);
+  const handleUpload = () => {
     const fileName = new Date().getTime() + video.name;
     const uploadTask = storage
       .ref(`/video/${movie._id}/${fileName}`)
@@ -63,12 +66,8 @@ const AddVideo = () => {
       },
       () => {
         uploadTask.snapshot.ref.getDownloadURL().then((url) => {
-          setEp((prev) => {
-            return { ...prev, video: url };
-          });
-
-          setUploaded(true);
-          setUpload(false);
+          ep.current = { ...ep.current, video: url };
+          dispatch(createEp(ep.current));
         });
       }
     );
@@ -76,8 +75,19 @@ const AddVideo = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    dispatch(createEp(ep));
-    setUploaded(false);
+    if (!ep.current || !ep.current.ep || !ep.current.title || !video) {
+      dispatch(
+        addNoti({
+          id: v4(),
+          type: "ERROR",
+          message: "Vui lòng điền đầy đủ thông tin",
+          title: "Error Request",
+        })
+      );
+    } else {
+      setSubmit(true);
+      handleUpload();
+    }
   };
 
   const columns = [
@@ -156,21 +166,12 @@ const AddVideo = () => {
             onChange={(e) => setVideo(e.target.files[0])}
           />
         </div>
-
-        {uploaded ? (
-          <button className="addProductButton" onClick={handleSubmit}>
-            Tạo
-          </button>
+        {submit ? (
+          <div className="loader"></div>
         ) : (
-          <button className="addProductButton" onClick={handleUpload}>
-            Tải lên
+          <button className="addProductButton" onClick={handleSubmit}>
+            Thêm tập
           </button>
-        )}
-
-        {upload && (
-          <div className="addProductItem">
-            <p>Đang tải {progress} %</p>
-          </div>
         )}
       </form>
     </div>

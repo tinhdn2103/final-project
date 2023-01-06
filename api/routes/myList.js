@@ -37,8 +37,13 @@ router.get("/find", verify, async (req, res) => {
   try {
     const myList = await MyList.find({
       user: req.user.id,
+    }).populate({
+      path: "movie",
+      select: ["_id"],
+      match: { isActive: true },
     });
-    res.status(200).json(myList);
+    const result = myList.filter((m) => m.movie !== null);
+    res.status(200).json(result);
   } catch (error) {
     res.status(500).json(err);
   }

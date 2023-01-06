@@ -48,12 +48,28 @@ const NewList = () => {
           </div>
           <div className="addProductItem">
             <label>Thể loại</label>
-            <input
+            {/* <input
               type="text"
               placeholder="Thể loại"
               name="genre"
               onChange={handleChange}
-            />
+            /> */}
+            <select name="genre" id="genre" onChange={handleChange}>
+              <option value="">Thể loại</option>
+              <option value="adventure">Phiêu lưu</option>
+              <option value="comedy">Hài kịch</option>
+              <option value="crime">Tội phạm</option>
+              <option value="fantasy">Kỳ ảo</option>
+              <option value="historical">Lịch sử</option>
+              <option value="horror">Kinh dị</option>
+              <option value="romance">Lãng mạn</option>
+              <option value="sci-fi">Khoa học viễn tưởng</option>
+              <option value="thriller">Giật gân</option>
+              <option value="western">Viễn tây</option>
+              <option value="animation">Hoạt hình</option>
+              <option value="drama">Drama</option>
+              <option value="documentary">Tài liệu</option>
+            </select>
           </div>
 
           <div className="addProductItem">

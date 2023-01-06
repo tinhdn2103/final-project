@@ -104,7 +104,8 @@ router.get("/success", verify, (req, res) => {
             });
             const savedPayment = await newPayment.save();
             const newDigitalWallet = new DigitalWallet({
-              payment: savedPayment._id,
+              // payment: savedPayment._id,
+              _id: paymentId,
               email: payment.payer.payer_info.email,
             });
             await newDigitalWallet.save();

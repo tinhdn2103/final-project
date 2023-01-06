@@ -21,6 +21,7 @@ router.put("/:id", verify, async (req, res) => {
           $set: req.body,
         },
         {
+          fields: { password: 0 },
           new: true,
         }
       );
@@ -67,8 +68,10 @@ router.get("/", verify, async (req, res) => {
   if (req.user.isAdmin) {
     try {
       const users = query
-        ? await User.find().sort({ _id: -1 }).limit(5)
-        : await User.find();
+        ? await User.find({ isAdmin: false }, { password: 0 })
+            .sort({ _id: -1 })
+            .limit(5)
+        : await User.find({ isAdmin: false }, { password: 0 });
       res.status(200).json(users);
     } catch (err) {
       res.status(500).json(err);

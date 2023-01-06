@@ -66,18 +66,26 @@ const ListListMovie = () => {
     },
   ];
   return (
-    lists && (
-      <div className="productList">
-        <DataGrid
-          rows={lists}
-          disableSelectionOnClick
-          columns={columns}
-          pageSize={8}
-          checkboxSelection
-          getRowId={(r) => r._id}
-        />
+    <div className="listListWrapper">
+      <div className="listListContainer">
+        <h1 className="listListTitle">Danh sách</h1>
+        <Link to="/newList">
+          <button className="listListAddButton">Tạo mới</button>
+        </Link>
       </div>
-    )
+      {lists && (
+        <div className="listList">
+          <DataGrid
+            rows={lists}
+            disableSelectionOnClick
+            columns={columns}
+            pageSize={8}
+            checkboxSelection
+            getRowId={(r) => r._id}
+          />
+        </div>
+      )}
+    </div>
   );
 };
 

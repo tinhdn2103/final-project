@@ -2,11 +2,15 @@ const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 const DigitalWalletSchema = new Schema(
   {
-    payment: {
+    _id: {
       type: String,
-      ref: "Payment",
-      required: true,
+      require: true,
     },
+    // payment: {
+    //   type: String,
+    //   ref: "Payment",
+    //   required: true,
+    // },
     email: {
       type: String,
       require: true,

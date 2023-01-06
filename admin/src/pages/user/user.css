@@ -8,16 +8,6 @@
   align-items: center;
   justify-content: space-between;
 }
-.userAddButton {
-  width: 80px;
-  border: none;
-  padding: 5px;
-  background-color: var(--theme-color);
-  border-radius: 5px;
-  cursor: pointer;
-  color: white;
-  font-size: 16px;
-}
 
 .userContainer {
   display: flex;
@@ -120,6 +110,8 @@
 }
 .userUpdateUpload {
   display: flex;
+  flex-direction: column;
+
   align-items: center;
 }
 
@@ -129,18 +121,35 @@
   border-radius: 10px;
   object-fit: cover;
   margin-right: 20px;
-}
-
-.userUpdateIcon {
-  cursor: pointer;
+  margin-bottom: 10px;
 }
 
 .userUpdateButton {
   border-radius: 5px;
   border: none;
-  padding: 5px;
+  padding: 5px 20px;
   cursor: pointer;
   background-color: var(--theme-color);
   color: white;
   font-weight: 600;
+  margin-top: 20px;
+  align-self: center;
+}
+.loader {
+  margin-left: 20px;
+  border: 5px solid white;
+  border-radius: 50%;
+  border-top: 5px solid var(--theme-color);
+  width: 16px;
+  height: 16px;
+  animation: spin 2s linear infinite;
+  align-self: center;
+}
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
 }

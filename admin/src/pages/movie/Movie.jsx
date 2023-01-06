@@ -1,12 +1,101 @@
-import React from "react";
-import { Link, useLocation } from "react-router-dom";
+import React, { useEffect, useRef, useState } from "react";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import "./movie.css";
 import { Publish } from "@material-ui/icons";
+import storage from "../../firebase";
+import { v4 } from "uuid";
+import { useDispatch } from "react-redux";
+import { addNoti } from "../../store/reducers/notiSlice";
+import { updateMovie } from "../../store/reducers/movieSlice";
 
 const Movie = () => {
   const location = useLocation();
   const { movie } = location.state;
+  const newMovie = useRef(movie);
+  const items = useRef([]);
+  const [img, setImg] = useState(null);
+  const [trailer, setTrailer] = useState(null);
+  const [src, setSrc] = useState(movie.img);
+  const [uploaded, setUploaded] = useState(0);
+  const [progress, setProgress] = useState(0);
+  const [submit, setSubmit] = useState(false);
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
 
+  useEffect(() => {
+    if (img) {
+      const objectUrl = URL.createObjectURL(img);
+      setSrc(objectUrl);
+      return () => URL.revokeObjectURL(objectUrl);
+    }
+  }, [img]);
+
+  const handleChange = (e) => {
+    const value = e.target.value;
+    newMovie.current = { ...newMovie.current, [e.target.name]: value };
+  };
+
+  const upload = (items) => {
+    items.forEach((item) => {
+      const fileName = new Date().getTime() + item.file.name;
+      const uploadTask = storage
+        .ref(`/${item.label}/${fileName}`)
+        .put(item.file);
+      uploadTask.on(
+        "state_change",
+        (snapshot) => {
+          const prg = (
+            (snapshot.bytesTransferred / snapshot.totalBytes) *
+            100
+          ).toFixed(0);
+          console.log("Upload is " + prg + "% done");
+          setProgress(prg);
+        },
+        (error) => {
+          console.log(error);
+        },
+        () => {
+          uploadTask.snapshot.ref.getDownloadURL().then((url) => {
+            newMovie.current = { ...newMovie.current, [item.label]: url };
+            setUploaded((prev) => prev + 1);
+          });
+        }
+      );
+    });
+  };
+  useEffect(() => {
+    if (
+      (items.current.length === 1 && uploaded === 1) ||
+      (items.current.length === 2 && uploaded === 2)
+    ) {
+      dispatch(updateMovie(newMovie.current));
+      navigate("/movies");
+    }
+  }, [uploaded]);
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    if (!newMovie.current.title) {
+      dispatch(
+        addNoti({
+          id: v4(),
+          type: "ERROR",
+          message: "Vui lòng điền đầy đủ thông tin",
+          title: "Error Request",
+        })
+      );
+    } else {
+      setSubmit(true);
+      img && items.current.push({ file: img, label: "img" });
+      trailer && items.current.push({ file: trailer, label: "trailer" });
+      if (items.current.length > 0) {
+        upload(items.current);
+      } else {
+        dispatch(updateMovie(newMovie.current));
+        navigate("/movies");
+      }
+    }
+  };
   return (
     <div className="product">
       <div className="productTitleContainer">
@@ -45,25 +134,59 @@ const Movie = () => {
         <form className="productForm">
           <div className="productFormLeft">
             <label>Tên phim</label>
-            <input type="text" placeholder={movie.title} />
+            <input
+              name="title"
+              type="text"
+              defaultValue={movie.title}
+              onChange={handleChange}
+            />
             <label>Năm</label>
-            <input type="text" placeholder={movie.year} />
+            <input
+              name="year"
+              type="text"
+              defaultValue={movie.year}
+              onChange={handleChange}
+            />
             <label>Thể loại</label>
-            <input type="text" placeholder={movie.genre} />
+            <input
+              name="genre"
+              type="text"
+              defaultValue={movie.genre}
+              onChange={handleChange}
+            />
             <label>Giới hạn</label>
-            <input type="text" placeholder={movie.limit} />
+            <input
+              name="limit"
+              type="text"
+              defaultValue={movie.limit}
+              onChange={handleChange}
+            />
+
             <label>Trailer</label>
-            <input type="file" placeholder={movie.trailer} />
+            <input
+              type="file"
+              name="trailer"
+              onChange={(e) => setTrailer(e.target.files[0])}
+            />
           </div>
           <div className="productFormRight">
             <div className="productUpload">
-              <img src={movie.img} alt="" className="productUploadImg" />
-              <label htmlFor="file">
-                <Publish />
-              </label>
-              <input type="file" id="file" style={{ display: "none" }} />
+              <img src={src} alt="" className="productUploadImg" />
+
+              <input
+                type="file"
+                id="img"
+                name="img"
+                onChange={(e) => setImg(e.target.files[0])}
+              />
             </div>
-            <button className="productButton">Cập nhật</button>
+            {submit ? (
+              <div className="loader"></div>
+            ) : (
+              <button className="productButton" onClick={handleSubmit}>
+                Cập nhật
+              </button>
+            )}
           </div>
         </form>
       </div>

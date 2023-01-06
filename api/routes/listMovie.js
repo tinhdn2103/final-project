@@ -78,8 +78,10 @@ router.get("/list/:id", verify, async (req, res) => {
     }).populate({
       path: "movie",
       select: ["title", "img"],
+      match: { isActive: true },
     });
-    res.status(200).json(listMovies);
+    const result = listMovies.filter((listMovie) => listMovie.movie !== null);
+    res.status(200).json(result);
   } catch (err) {
     res.status(500).json(err);
   }

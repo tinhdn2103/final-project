@@ -16,6 +16,7 @@ import {
 } from "../../store/reducers/movieSlice";
 import axios from "../../apiClient";
 import { authSelector } from "../../store/reducers/authSlice";
+import Footer from "../../components/footer/Footer";
 
 const Watch = () => {
   // const location = useLocation();
@@ -26,6 +27,7 @@ const Watch = () => {
   const videoRef = useRef();
   const epRef = useRef(1);
   const timeRef = useRef(10);
+  const movieRef = useRef(movie);
   const [time, setTime] = useState(10);
 
   useEffect(() => {
@@ -47,6 +49,7 @@ const Watch = () => {
       }
     };
     getWatching();
+    movieRef.current = movie;
   }, [movie]);
 
   useEffect(() => {
@@ -60,37 +63,37 @@ const Watch = () => {
 
   //setCurrentTime(videoRef.current.currentTime) ????
 
-  // useEffect(() => {
-  //   const interval = setInterval(() => {
-  //     const setWatching = async () => {
-  //       try {
-  //         await axios.post(
-  //           "/watching",
-  //           {
-  //             movie: movie._id,
-  //             user: user._id,
-  //             time: timeRef.current,
-  //             currentTime: videoRef.current.currentTime,
-  //             ep: epRef.current,
-  //           },
-  //           {
-  //             headers: {
-  //               Authorization:
-  //                 "Bearer " +
-  //                 JSON.parse(localStorage.getItem("user")).accessToken,
-  //             },
-  //           }
-  //         );
-  //       } catch (error) {
-  //         console.log(error);
-  //       }
-  //     };
+  useEffect(() => {
+    const interval = setInterval(() => {
+      const setWatching = async () => {
+        try {
+          await axios.post(
+            "/watching",
+            {
+              movie: movieRef.current._id,
+              user: user._id,
+              time: timeRef.current,
+              currentTime: videoRef.current.currentTime,
+              ep: epRef.current,
+            },
+            {
+              headers: {
+                Authorization:
+                  "Bearer " +
+                  JSON.parse(localStorage.getItem("user")).accessToken,
+              },
+            }
+          );
+        } catch (error) {
+          console.log(error);
+        }
+      };
 
-  //     setWatching();
-  //   }, 10000);
+      setWatching();
+    }, 10000);
 
-  //   return () => clearInterval(interval);
-  // }, []);
+    return () => clearInterval(interval);
+  }, []);
 
   useEffect(() => {
     dispatch(setMovie(movie));
@@ -101,7 +104,7 @@ const Watch = () => {
   }, [movie]);
 
   return (
-    <>
+    <div className="wrapper-watch">
       <div className="watch">
         <Link to="/">
           <div className="back">
@@ -129,7 +132,8 @@ const Watch = () => {
       </div>
 
       <Info />
-    </>
+      <Footer />
+    </div>
   );
 };
 

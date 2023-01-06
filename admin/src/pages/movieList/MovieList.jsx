@@ -31,7 +31,7 @@ const MovieList = () => {
     {
       field: "movie",
       headerName: "Phim",
-      width: 200,
+      width: 250,
       renderCell: (params) => {
         return (
           <div className="productListItem">
@@ -41,7 +41,7 @@ const MovieList = () => {
         );
       },
     },
-    { field: "genre", headerName: "Thể loại", width: 90 },
+    { field: "genre", headerName: "Thể loại", width: 100 },
     { field: "year", headerName: "Năm", width: 90 },
     { field: "limit", headerName: "Giới hạn", width: 90 },
     { field: "isSeries", headerName: "Series", width: 90 },
@@ -99,18 +99,26 @@ const MovieList = () => {
     },
   ];
   return (
-    movies && (
-      <div className="movieList">
-        <DataGrid
-          rows={movies}
-          disableSelectionOnClick
-          columns={columns}
-          pageSize={8}
-          checkboxSelection
-          getRowId={(r) => r._id}
-        />
+    <div className="movieListWrapper">
+      <div className="movieListContainer">
+        <h1 className="movieListTitle">Phim</h1>
+        <Link to="/newMovie">
+          <button className="movieAddButton">Tạo mới</button>
+        </Link>
       </div>
-    )
+      {movies && (
+        <div className="movieList">
+          <DataGrid
+            rows={movies}
+            disableSelectionOnClick
+            columns={columns}
+            pageSize={8}
+            checkboxSelection
+            getRowId={(r) => r._id}
+          />
+        </div>
+      )}
+    </div>
   );
 };
 

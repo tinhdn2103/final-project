@@ -2,9 +2,10 @@ import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
 
 //Reducer Thunk
+
 //Get Lists
 export const getLists = createAsyncThunk("list/getLists", async () => {
-  const res = await axios.get("/lists", {
+  const res = await axios.get("/lists/all", {
     headers: {
       Authorization:
         "Bearer " + JSON.parse(localStorage.getItem("user")).accessToken,
@@ -16,14 +17,33 @@ export const getLists = createAsyncThunk("list/getLists", async () => {
 //Delete List
 
 export const deleteList = createAsyncThunk("list/deleteList", async (id) => {
-  await axios.delete("/lists/" + id, {
-    headers: {
-      Authorization:
-        "Bearer " + JSON.parse(localStorage.getItem("user")).accessToken,
-    },
-  });
+  await axios.put(
+    "/lists/unactive/" + id,
+    {},
+    {
+      headers: {
+        Authorization:
+          "Bearer " + JSON.parse(localStorage.getItem("user")).accessToken,
+      },
+    }
+  );
   return id;
 });
+
+//Update List
+
+export const updateList = createAsyncThunk(
+  "list/updateList",
+  async (newList) => {
+    const res = await axios.put("/lists/" + newList._id, newList, {
+      headers: {
+        Authorization:
+          "Bearer " + JSON.parse(localStorage.getItem("user")).accessToken,
+      },
+    });
+    return res.data;
+  }
+);
 
 const listSlice = createSlice({
   name: "list",
@@ -66,6 +86,12 @@ const listSlice = createSlice({
       state.isFetching = false;
       state.error = true;
       console.log("Delete list failure!");
+    },
+    [updateList.fulfilled]: (state, action) => {
+      state.lists = state.lists.map((list) =>
+        list._id === action.payload._id ? action.payload : list
+      );
+      console.log("Update list success!");
     },
   },
 });

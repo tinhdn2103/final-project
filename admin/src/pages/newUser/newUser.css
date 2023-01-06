@@ -26,6 +26,9 @@
   border: 1px solid gray;
   border-radius: 5px;
 }
+.newUserItem > select {
+  padding: 10px;
+}
 
 .newUserGender > input {
   margin-top: 15px;

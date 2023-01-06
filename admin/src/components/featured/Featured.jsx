@@ -52,12 +52,12 @@ const Featured = () => {
               </>
             ) : usersFeatured.growth > 0 ? (
               <>
-                +{usersFeatured.growth}
+                +{usersFeatured.growth?.toFixed(2)}
                 <ArrowUpward className="featuredIcon" />
               </>
             ) : (
               <>
-                {usersFeatured.growth}
+                {usersFeatured.growth?.toFixed(2)}
                 <ArrowDownward className="featuredIcon negative" />
               </>
             )}

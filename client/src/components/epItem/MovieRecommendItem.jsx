@@ -21,25 +21,30 @@ const MovieRecommendItem = ({ index, item }) => {
     getMovie();
   }, [item]);
   return (
-    <Link
-      className="link"
-      to={"/watch"}
-      onClick={() => dispatch(setMovie(movieItem))}
-    >
-      <div className="epItem">
-        <img src={movieItem.img} alt="" />
-        <div className="play" style={{ left: index * 205 + 80 + index * 2.5 }}>
-          <BsFillPlayFill />
-        </div>
-        <div className="epInfo">
-          <div className="epInfoTop">
-            <span>{movieItem.title}</span>
+    movieItem && (
+      <Link
+        className="link"
+        to={"/watch"}
+        onClick={() => dispatch(setMovie(movieItem))}
+      >
+        <div className="epItem">
+          <img src={movieItem.img} alt="" />
+          <div
+            className="play"
+            style={{ left: index * 205 + 80 + index * 2.5 }}
+          >
+            <BsFillPlayFill />
           </div>
-          <div>{movieItem.duration}ph</div>
-          <div>{movieItem.desc}</div>
+          <div className="epInfo">
+            <div className="epInfoTop">
+              <span>{movieItem.title}</span>
+            </div>
+            <div>{movieItem.duration}ph</div>
+            <div>{movieItem.desc}</div>
+          </div>
         </div>
-      </div>
-    </Link>
+      </Link>
+    )
   );
 };
 

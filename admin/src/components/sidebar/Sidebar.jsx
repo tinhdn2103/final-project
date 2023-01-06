@@ -51,7 +51,11 @@ const Sidebar = () => {
           <h3 className="sidebarTitle">Truy cập nhanh</h3>
           <ul className="sidebarList">
             <Link to="/users" className="link">
-              <li className="sidebarListItem">
+              <li
+                id="user"
+                className={`sidebarListItem ${activeId === "user" && "active"}`}
+                onClick={handleClick("user")}
+              >
                 <PermIdentity className="sidebarIcon" />
                 Người dùng
               </li>

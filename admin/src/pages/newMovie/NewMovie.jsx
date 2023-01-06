@@ -1,23 +1,25 @@
-import React, { useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import "./newMovie.css";
 import storage from "../../firebase";
 import { createMovie } from "../../store/reducers/movieSlice";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
+import { addNoti } from "../../store/reducers/notiSlice";
+import { v4 } from "uuid";
 
 const NewMovie = () => {
-  const [movie, setMovie] = useState(null);
+  const movie = useRef(null);
   const [img, setImg] = useState(null);
-  const [imgTitle, setImgTitle] = useState(null);
   const [trailer, setTrailer] = useState(null);
   const [uploaded, setUploaded] = useState(0);
   const dispatch = useDispatch();
   const [progress, setProgress] = useState(0);
   const navigate = useNavigate();
+  const [submit, setSubmit] = useState(false);
 
   const handleChange = (e) => {
     const value = e.target.value;
-    setMovie({ ...movie, [e.target.name]: value });
+    movie.current = { ...movie.current, [e.target.name]: value };
   };
 
   const upload = (items) => {
@@ -41,30 +43,38 @@ const NewMovie = () => {
         },
         () => {
           uploadTask.snapshot.ref.getDownloadURL().then((url) => {
-            setMovie((prev) => {
-              return { ...prev, [item.label]: url };
-            });
-
+            movie.current = { ...movie.current, [item.label]: url };
             setUploaded((prev) => prev + 1);
           });
         }
       );
     });
   };
-
-  const handleUpload = (e) => {
-    e.preventDefault();
-    upload([
-      { file: img, label: "img" },
-      { file: imgTitle, label: "imgTitle" },
-      { file: trailer, label: "trailer" },
-    ]);
-  };
+  useEffect(() => {
+    if (uploaded === 2) {
+      dispatch(createMovie(movie.current));
+      navigate("/movies");
+    }
+  }, [uploaded]);
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    dispatch(createMovie(movie));
-    navigate("/movies");
+    if (!movie.current || !movie.current.title || !img || !trailer) {
+      dispatch(
+        addNoti({
+          id: v4(),
+          type: "ERROR",
+          message: "Vui lòng điền đầy đủ thông tin",
+          title: "Error Request",
+        })
+      );
+    } else {
+      setSubmit(true);
+      upload([
+        { file: img, label: "img" },
+        { file: trailer, label: "trailer" },
+      ]);
+    }
   };
 
   return (
@@ -80,15 +90,7 @@ const NewMovie = () => {
             onChange={(e) => setImg(e.target.files[0])}
           />
         </div>
-        <div className="addProductItem">
-          <label>Ảnh tên phim</label>
-          <input
-            type="file"
-            id="imgTitle"
-            name="imgTitle"
-            onChange={(e) => setImgTitle(e.target.files[0])}
-          />
-        </div>
+
         <div className="addProductItem">
           <label>Tên phim</label>
           <input
@@ -168,20 +170,12 @@ const NewMovie = () => {
             onChange={(e) => setTrailer(e.target.files[0])}
           />
         </div>
-
-        {uploaded === 3 ? (
-          <button className="addProductButton" onClick={handleSubmit}>
-            Tạo
-          </button>
+        {submit ? (
+          <div className="loader"></div>
         ) : (
-          <button className="addProductButton" onClick={handleUpload}>
-            Tải lên
+          <button className="addProductButton" onClick={handleSubmit}>
+            Thêm phim
           </button>
-        )}
-        {uploaded === 3 && (
-          <div className="addProductItem">
-            <p>Đã tải lên</p>
-          </div>
         )}
       </form>
     </div>

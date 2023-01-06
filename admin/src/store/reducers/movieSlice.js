@@ -30,12 +30,16 @@ export const createMovie = createAsyncThunk(
 //Delete Movie
 
 export const deleteMovie = createAsyncThunk("movie/deleteMovie", async (id) => {
-  await axios.delete("/movies/" + id, {
-    headers: {
-      Authorization:
-        "Bearer " + JSON.parse(localStorage.getItem("user")).accessToken,
-    },
-  });
+  await axios.put(
+    "/movies/unactive/" + id,
+    {},
+    {
+      headers: {
+        Authorization:
+          "Bearer " + JSON.parse(localStorage.getItem("user")).accessToken,
+      },
+    }
+  );
   return id;
 });
 
@@ -43,8 +47,8 @@ export const deleteMovie = createAsyncThunk("movie/deleteMovie", async (id) => {
 
 export const updateMovie = createAsyncThunk(
   "movie/updateMovie",
-  async (id, movie) => {
-    const res = await axios.put("/movies/" + id, movie, {
+  async (newMovie) => {
+    const res = await axios.put("/movies/" + newMovie._id, newMovie, {
       headers: {
         Authorization:
           "Bearer " + JSON.parse(localStorage.getItem("user")).accessToken,
@@ -63,46 +67,20 @@ const movieSlice = createSlice({
   },
   reducers: {},
   extraReducers: {
-    //login
-
-    [getMovies.pending]: (state, action) => {
-      state.isFetching = true;
-      state.error = false;
-      console.log("Get movie start!");
-    },
     [getMovies.fulfilled]: (state, action) => {
       state.movies = action.payload;
       state.isFetching = false;
       state.error = false;
       console.log("Get movie success!");
     },
-    [getMovies.rejected]: (state, action) => {
-      state.isFetching = false;
-      state.error = true;
-      console.log("Get movie failure!");
-    },
 
-    [createMovie.pending]: (state, action) => {
-      state.isFetching = true;
-      state.error = false;
-      console.log("Create movie start!");
-    },
     [createMovie.fulfilled]: (state, action) => {
       state.movies.push(action.payload);
       state.isFetching = false;
       state.error = false;
       console.log("Create movie success!");
     },
-    [createMovie.rejected]: (state, action) => {
-      state.isFetching = false;
-      state.error = true;
-      console.log("Create movie failure!");
-    },
-    [deleteMovie.pending]: (state, action) => {
-      state.isFetching = true;
-      state.error = false;
-      console.log("Delete movie start!");
-    },
+
     [deleteMovie.fulfilled]: (state, action) => {
       state.movies = state.movies.filter(
         (movie) => movie._id !== action.payload
@@ -111,28 +89,14 @@ const movieSlice = createSlice({
       state.error = false;
       console.log("Delete movie success!");
     },
-    [deleteMovie.rejected]: (state, action) => {
-      state.isFetching = false;
-      state.error = true;
-      console.log("Delete movie failure!");
-    },
-    [updateMovie.pending]: (state, action) => {
-      state.isFetching = true;
-      state.error = false;
-      console.log("Update movie start!");
-    },
+
     [updateMovie.fulfilled]: (state, action) => {
-      state.movies = state.movies.map(
-        (movie) => movie._id === action.payload._id && action.payload
+      state.movies = state.movies.map((movie) =>
+        movie._id === action.payload._id ? action.payload : movie
       );
       state.isFetching = false;
       state.error = false;
       console.log("Update movie success!");
-    },
-    [updateMovie.rejected]: (state, action) => {
-      state.isFetching = false;
-      state.error = true;
-      console.log("Update movie failure!");
     },
   },
 });

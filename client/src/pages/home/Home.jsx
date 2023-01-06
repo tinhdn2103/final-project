@@ -12,6 +12,7 @@ import {
   listsSelector,
 } from "../../store/reducers/listsSlice";
 import ListSpecial from "../../components/list/ListSpecial";
+import Footer from "../../components/footer/Footer";
 
 const Home = ({ type }) => {
   const [genre, setGenre] = useState(null);
@@ -42,6 +43,7 @@ const Home = ({ type }) => {
       {lists.map((list) => (
         <List key={list._id} list={list} />
       ))}
+      <Footer />
     </div>
   );
 };

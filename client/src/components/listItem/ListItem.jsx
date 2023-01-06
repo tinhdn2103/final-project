@@ -48,36 +48,38 @@ const ListItem = ({ index, item }) => {
     getMovie();
   }, [item]);
   return (
-    <div
-      className="listItem"
-      style={{ left: isHovered && index * 205 - 50 + index * 2.5 }}
-      onMouseEnter={() => setIsHovered(true)}
-      onMouseLeave={() => setIsHovered(false)}
-    >
-      <img src={movieItem.img} alt="" />
-      {isHovered && (
-        <>
-          <Link to={"/watch"} onClick={() => dispatch(setMovie(movieItem))}>
-            <video src={movieItem.trailer} autoPlay={true} loop />
-          </Link>
-          <div className="itemInfo">
-            <div className="icons">
-              <BsFillPlayFill className="icon" size={20} />
-              <IoMdAdd className="icon" size={20} onClick={handleAdd} />
-              <BiLike className="icon" size={20} />
-              <BiDislike className="icon" size={20} />
+    movieItem && (
+      <div
+        className="listItem"
+        style={{ left: isHovered && index * 205 - 50 + index * 2.5 }}
+        onMouseEnter={() => setIsHovered(true)}
+        onMouseLeave={() => setIsHovered(false)}
+      >
+        <img src={movieItem.img} alt="" />
+        {isHovered && (
+          <>
+            <Link to={"/watch"} onClick={() => dispatch(setMovie(movieItem))}>
+              <video src={movieItem.trailer} autoPlay={true} loop />
+            </Link>
+            <div className="itemInfo">
+              <div className="icons">
+                <BsFillPlayFill className="icon" size={20} />
+                <IoMdAdd className="icon" size={20} onClick={handleAdd} />
+                <BiLike className="icon" size={20} />
+                <BiDislike className="icon" size={20} />
+              </div>
+              <div className="itemInfoTop">
+                <span>{movieItem.duration}</span>
+                <span className="limit">{movieItem.limit}</span>
+                <span>{movieItem.year}</span>
+              </div>
+              <div className="desc">{movieItem.desc}</div>
+              <div className="genre">{movieItem.genre}</div>
             </div>
-            <div className="itemInfoTop">
-              <span>{movieItem.duration}</span>
-              <span className="limit">{movieItem.limit}</span>
-              <span>{movieItem.year}</span>
-            </div>
-            <div className="desc">{movieItem.desc}</div>
-            <div className="genre">{movieItem.genre}</div>
-          </div>
-        </>
-      )}
-    </div>
+          </>
+        )}
+      </div>
+    )
   );
 };
 

@@ -50,31 +50,34 @@ const Featured = ({ type, setGenre }) => {
           </select>
         </div>
       )}
-      <img src={content.img} alt="" className="img" />
+      {content && (
+        <>
+          <img src={content.img} alt="" className="img" />
 
-      <div className="info">
-        <img src={content.imgTitle} alt="" />
+          <div className="info">
+            <img src={content.imgTitle} alt="" />
 
-        <span className="desc">{content.desc}</span>
+            <span className="desc">{content.desc}</span>
 
-        <div className="buttons">
-          <Link
-            to={"/watch"}
-            className="link"
-            onClick={() => dispatch(setMovie(content))}
-          >
-            <button className="play">
-              <FaPlay />
-              <span>Phát</span>
-            </button>
-          </Link>
-          <button className="more">
-            <HiOutlineInformationCircle />
-            <span>Thông tin khác</span>
-          </button>
-        </div>
-      </div>
-
+            <div className="buttons">
+              <Link
+                to={"/watch"}
+                className="link"
+                onClick={() => dispatch(setMovie(content))}
+              >
+                <button className="play">
+                  <FaPlay />
+                  <span>Phát</span>
+                </button>
+              </Link>
+              <button className="more">
+                <HiOutlineInformationCircle />
+                <span>Thông tin khác</span>
+              </button>
+            </div>
+          </div>
+        </>
+      )}
       <div className="control"></div>
     </div>
   );

@@ -1,43 +1,52 @@
 import "./userList.css";
 import { DataGrid } from "@material-ui/data-grid";
 import { DeleteOutline } from "@material-ui/icons";
-import React, { useState } from "react";
-import { userRows } from "../../dummyData";
+import React from "react";
+import { useSelector, useDispatch } from "react-redux";
 
 import { Link } from "react-router-dom";
+import {
+  deleteUser,
+  getUsers,
+  userSelector,
+} from "../../store/reducers/userSlice";
+import { useEffect } from "react";
 const UserList = () => {
-  const [data, setData] = useState(userRows);
+  const users = useSelector(userSelector);
+
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(getUsers());
+  }, [dispatch]);
 
   const handleDelete = (id) => {
-    setData(data.filter((item) => item.id !== id));
+    dispatch(deleteUser(id));
   };
-
   const columns = [
-    { field: "id", headerName: "ID", width: 90 },
+    { field: "_id", headerName: "ID", width: 250 },
     {
       field: "user",
-      headerName: "User",
-      width: 200,
+      headerName: "Người dùng",
+      width: 300,
       renderCell: (params) => {
         return (
           <div className="userListUser">
-            <img className="userListImg" src={params.row.avatar} alt="" />
+            <img
+              className="userListImg"
+              src={
+                params.row.profilePic ||
+                "https://firebasestorage.googleapis.com/v0/b/movie-web-fadf1.appspot.com/o/avatar_default.jpg?alt=media&token=58615de8-5e1d-4bc1-bf89-0ce4fdf004f3"
+              }
+              alt=""
+            />
             {params.row.username}
           </div>
         );
       },
     },
-    { field: "email", headerName: "Email", width: 200 },
-    {
-      field: "status",
-      headerName: "Status",
-      width: 120,
-    },
-    {
-      field: "transaction",
-      headerName: "Transaction Volume",
-      width: 160,
-    },
+    { field: "email", headerName: "Email", width: 300 },
+
     {
       field: "action",
       headerName: "Action",
@@ -45,13 +54,13 @@ const UserList = () => {
       renderCell: (params) => {
         return (
           <>
-            <Link to={"/user/" + params.row.id}>
+            <Link to={"/user/" + params.row._id} state={{ user: params.row }}>
               <button className="userListEdit">Edit</button>
             </Link>
-            <DeleteOutline
+            {/* <DeleteOutline
               className="userListDelete"
-              onClick={() => handleDelete(params.row.id)}
-            />
+              onClick={() => handleDelete(params.row._id)}
+            /> */}
           </>
         );
       },
@@ -59,14 +68,26 @@ const UserList = () => {
   ];
 
   return (
-    <div className="userList">
-      <DataGrid
-        rows={data}
-        disableSelectionOnClick
-        columns={columns}
-        pageSize={5}
-        checkboxSelection
-      />
+    <div className="userListWrapper">
+      <div className="userListContainer">
+        <h1 className="userListTitle">Danh sách người dùng</h1>
+        <Link to="/newUser">
+          <button className="userAddButton">Tạo mới</button>
+        </Link>
+      </div>
+
+      {users && (
+        <div className="userList">
+          <DataGrid
+            rows={users}
+            disableSelectionOnClick
+            columns={columns}
+            pageSize={10}
+            checkboxSelection
+            getRowId={(r) => r._id}
+          />
+        </div>
+      )}
     </div>
   );
 };
