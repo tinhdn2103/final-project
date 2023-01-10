@@ -13,38 +13,23 @@ import {
   getActorsOfMovie,
 } from "../../store/reducers/actorMovieSlice";
 import { useLocation } from "react-router-dom";
+import { actorSelector, getActors } from "../../store/reducers/actorSlice";
 
 const AddActor = () => {
   const location = useLocation();
   const { movie } = location.state;
-  const actors = useSelector(actorMovieSelector);
+  const actorMovies = useSelector(actorMovieSelector);
 
   const dispatch = useDispatch();
 
   const [actorMovie, setActorMovie] = useState({ movie: movie._id });
 
-  const [listActors, setListActors] = useState([{}]);
+  const actors = useSelector(actorSelector);
 
   useEffect(() => {
     dispatch(getActorsOfMovie(movie._id));
+    dispatch(getActors());
   }, [dispatch]);
-
-  useEffect(() => {
-    const getActors = async () => {
-      try {
-        const res = await axios.get("/actors", {
-          headers: {
-            Authorization:
-              "Bearer " + JSON.parse(localStorage.getItem("user")).accessToken,
-          },
-        });
-        setListActors(res.data);
-      } catch (error) {
-        console.log(error);
-      }
-    };
-    getActors();
-  }, []);
 
   const handleDelete = (id) => {
     dispatch(deleteActorMovie(id));
@@ -93,14 +78,13 @@ const AddActor = () => {
   ];
   return (
     <div className="addActor">
-      {actors && (
+      {actorMovies && (
         <div className="actorList">
           <DataGrid
-            rows={actors}
+            rows={actorMovies}
             disableSelectionOnClick
             columns={columns}
             pageSize={8}
-            checkboxSelection
             getRowId={(r) => r._id}
           />
         </div>
@@ -110,7 +94,7 @@ const AddActor = () => {
           <label>Diễn viên</label>
           <select name="actor" id="actor" onChange={handleChange}>
             <option value="">Diễn viên</option>
-            {listActors.map((actor, index) => (
+            {actors.map((actor, index) => (
               <option key={index} value={actor._id}>
                 {actor.name}
               </option>

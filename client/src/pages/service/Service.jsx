@@ -2,9 +2,14 @@ import React, { useEffect, useState } from "react";
 import "./service.scss";
 import { BsFillLaptopFill } from "react-icons/bs";
 import axios from "../../apiClient";
+import { useDispatch } from "react-redux";
+import { logout } from "../../store/reducers/authSlice";
+import { useNavigate } from "react-router-dom";
 
 const Service = () => {
   const [listService, setListService] = useState([]);
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
   useEffect(() => {
     const getServices = async () => {
       try {
@@ -38,7 +43,15 @@ const Service = () => {
             src="https://firebasestorage.googleapis.com/v0/b/movie-web-fadf1.appspot.com/o/logo_nobg.png?alt=media&token=1de4bd0b-097f-4aac-ad2d-b15e4f8d3608"
             alt=""
           />
-          <button className="loginButton">Đăng xuất</button>
+          <button
+            className="loginButton"
+            onClick={() => {
+              dispatch(logout());
+              navigate("/register");
+            }}
+          >
+            Đăng xuất
+          </button>
         </div>
       </div>
       <div className="chooseService">

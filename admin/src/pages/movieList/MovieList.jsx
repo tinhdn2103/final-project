@@ -27,11 +27,11 @@ const MovieList = () => {
   };
 
   const columns = [
-    { field: "_id", headerName: "ID", width: 90 },
+    // { field: "_id", headerName: "ID", width: 90 },
     {
       field: "movie",
       headerName: "Phim",
-      width: 250,
+      width: 300,
       renderCell: (params) => {
         return (
           <div className="productListItem">
@@ -41,14 +41,14 @@ const MovieList = () => {
         );
       },
     },
-    { field: "genre", headerName: "Thể loại", width: 100 },
-    { field: "year", headerName: "Năm", width: 90 },
-    { field: "limit", headerName: "Giới hạn", width: 90 },
-    { field: "isSeries", headerName: "Series", width: 90 },
+    { field: "genre", headerName: "Thể loại", width: 110 },
+    { field: "year", headerName: "Năm", width: 100 },
+    { field: "limit", headerName: "Giới hạn", width: 100 },
+    { field: "isSeries", headerName: "Series", width: 100 },
     {
       field: "action",
       headerName: "Chỉnh sửa",
-      width: 120,
+      width: 130,
       renderCell: (params) => {
         return (
           <>
@@ -113,7 +113,6 @@ const MovieList = () => {
             disableSelectionOnClick
             columns={columns}
             pageSize={8}
-            checkboxSelection
             getRowId={(r) => r._id}
           />
         </div>

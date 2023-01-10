@@ -13,6 +13,7 @@ import {
   Report,
   PlayCircleOutline,
   List,
+  RecentActors,
 } from "@material-ui/icons";
 import { Link } from "react-router-dom";
 
@@ -37,13 +38,9 @@ const Sidebar = () => {
                 Trang chủ
               </li>
             </Link>
-            <li className="sidebarListItem">
+            {/* <li className="sidebarListItem">
               <Timeline className="sidebarIcon" />
               Phân tích
-            </li>
-            {/* <li className="sidebarListItem">
-              <TrendingUp className="sidebarIcon" />
-              Bán hàng
             </li> */}
           </ul>
         </div>
@@ -82,13 +79,21 @@ const Sidebar = () => {
                 Danh sách phim
               </li>
             </Link>
-            <li className="sidebarListItem">
-              <BarChart className="sidebarIcon" />
-              Giao dịch
-            </li>
+            <Link to="/actors" className="link">
+              <li
+                id="actor"
+                className={`sidebarListItem ${
+                  activeId === "actor" && "active"
+                }`}
+                onClick={handleClick("actor")}
+              >
+                <RecentActors className="sidebarIcon" />
+                Diễn viên
+              </li>
+            </Link>
           </ul>
         </div>
-        <div className="sidebarMenu">
+        {/* <div className="sidebarMenu">
           <h3 className="sidebarTitle">Thông báo</h3>
           <ul className="sidebarList">
             <li className="sidebarListItem">
@@ -121,7 +126,7 @@ const Sidebar = () => {
               Báo cáo
             </li>
           </ul>
-        </div>
+        </div> */}
       </div>
     </div>
   );

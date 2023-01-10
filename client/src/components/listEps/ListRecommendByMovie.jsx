@@ -23,7 +23,10 @@ const ListRecommendByMovie = () => {
       setSlideNumber(slideNumber - 1);
       listRef.current.style.transform = `translateX(${210 + distance}px)`;
     }
-    if (direction === "right" && slideNumber < 10 - clickLimit) {
+    if (
+      direction === "right" &&
+      slideNumber < listRecommend.length - clickLimit
+    ) {
       setSlideNumber(slideNumber + 1);
       listRef.current.style.transform = `translateX(${-210 + distance}px)`;
     }
@@ -33,20 +36,24 @@ const ListRecommendByMovie = () => {
       <span className="listTitle">Phim tương tự</span>
 
       <div className="wrapper">
-        <MdArrowBackIosNew
-          className="sliderArrow left"
-          onClick={() => handleClick("left")}
-          style={{ display: !isMoved && "none" }}
-        />
+        {slideNumber > 0 && (
+          <MdArrowBackIosNew
+            className="sliderArrow left"
+            onClick={() => handleClick("left")}
+            style={{ display: !isMoved && "none" }}
+          />
+        )}
         <div className="container" ref={listRef}>
           {listRecommend.map((item, index) => (
             <MovieRecommendItem key={index} item={item} index={index} />
           ))}
         </div>
-        <MdArrowForwardIos
-          className="sliderArrow right"
-          onClick={() => handleClick("right")}
-        />
+        {slideNumber < listRecommend.length - clickLimit && (
+          <MdArrowForwardIos
+            className="sliderArrow right"
+            onClick={() => handleClick("right")}
+          />
+        )}
       </div>
     </div>
   );

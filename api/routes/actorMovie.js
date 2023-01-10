@@ -1,6 +1,7 @@
 const router = require("express").Router();
 const ActorMovie = require("../models/ActorMovie");
 const verify = require("../verifyToken");
+const axios = require("axios");
 
 //create
 
@@ -47,6 +48,7 @@ router.delete("/:id", verify, async (req, res) => {
   if (req.user.isAdmin) {
     try {
       await ActorMovie.findByIdAndDelete(req.params.id);
+      const response = await axios.get("http://127.0.0.1:5000/cb/fit");
       res.status(200).json("The actor movie has been deleted...");
     } catch (err) {
       res.status(500).json(err);

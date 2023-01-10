@@ -32,6 +32,7 @@ router.put("/:id", verify, async (req, res) => {
         },
         { new: true }
       );
+      const response = await axios.get("http://127.0.0.1:5000/cb/fit");
       res.status(200).json(updatedMovie);
     } catch (err) {
       res.status(500).json(err);

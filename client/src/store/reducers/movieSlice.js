@@ -52,7 +52,7 @@ export const getListRecommend = createAsyncThunk(
 const movieSlice = createSlice({
   name: "movie",
   initialState: {
-    movie: JSON.parse(localStorage.getItem("movie")) || {},
+    movie: JSON.parse(localStorage.getItem("movie")) || null,
     listEps: [],
     actors: [],
     comments: [],

@@ -25,10 +25,18 @@ const ListListMovie = () => {
   };
 
   const columns = [
-    { field: "_id", headerName: "ID", width: 250 },
-    { field: "title", headerName: "Tiêu đề", width: 250 },
-    { field: "genre", headerName: "Thể loại", width: 150 },
-    { field: "type", headerName: "Movie hay Series", width: 150 },
+    // { field: "_id", headerName: "ID", width: 250 },
+    { field: "title", headerName: "Tiêu đề", width: 400 },
+    {
+      field: "genre",
+      headerName: "Thể loại",
+      width: 150,
+    },
+    {
+      field: "type",
+      headerName: "Movie hay Series",
+      width: 150,
+    },
     {
       field: "action",
       headerName: "Chỉnh sửa",
@@ -80,7 +88,6 @@ const ListListMovie = () => {
             disableSelectionOnClick
             columns={columns}
             pageSize={8}
-            checkboxSelection
             getRowId={(r) => r._id}
           />
         </div>

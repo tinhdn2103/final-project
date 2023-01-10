@@ -1,10 +1,11 @@
 .epItem {
   width: 205px;
-  height: 220px;
+  height: 215px;
   background-color: var(--main-color);
   margin-right: 5px;
   cursor: pointer;
   color: white;
+  overflow: hidden;
 
   .watching {
     position: absolute;

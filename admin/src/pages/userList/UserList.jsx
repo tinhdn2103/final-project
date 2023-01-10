@@ -24,7 +24,7 @@ const UserList = () => {
     dispatch(deleteUser(id));
   };
   const columns = [
-    { field: "_id", headerName: "ID", width: 250 },
+    // { field: "_id", headerName: "ID", width: 250 },
     {
       field: "user",
       headerName: "Người dùng",
@@ -50,7 +50,7 @@ const UserList = () => {
     {
       field: "action",
       headerName: "Action",
-      width: 150,
+      width: 90,
       renderCell: (params) => {
         return (
           <>
@@ -83,7 +83,6 @@ const UserList = () => {
             disableSelectionOnClick
             columns={columns}
             pageSize={10}
-            checkboxSelection
             getRowId={(r) => r._id}
           />
         </div>

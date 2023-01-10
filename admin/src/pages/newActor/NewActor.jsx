@@ -1,56 +1,50 @@
-import "./addVideo.css";
+import "./newActor.css";
 import { DataGrid } from "@material-ui/data-grid";
 import { DeleteOutline } from "@material-ui/icons";
 import { useEffect, useRef, useState } from "react";
 import React from "react";
 import { useSelector, useDispatch } from "react-redux";
 import storage from "../../firebase";
-import { useLocation } from "react-router-dom";
-import {
-  createEp,
-  deleteEp,
-  epSelector,
-  getEps,
-} from "../../store/reducers/epSlice";
 import { addNoti } from "../../store/reducers/notiSlice";
 import { v4 } from "uuid";
+import {
+  actorSelector,
+  createActor,
+  deleteActor,
+  getActors,
+} from "../../store/reducers/actorSlice";
 
-const AddVideo = () => {
-  const location = useLocation();
-  const { movie } = location.state;
-  const listEps = useSelector(epSelector);
+const NewActor = () => {
+  const actors = useSelector(actorSelector);
 
   const dispatch = useDispatch();
 
-  // const [ep, setEp] = useState({ movie: movie._id });
-  const ep = useRef({ movie: movie._id });
+  const actor = useRef(null);
 
-  const [video, setVideo] = useState(null);
+  const [img, setImg] = useState(null);
   const [progress, setProgress] = useState(0);
   const [submit, setSubmit] = useState(false);
 
   useEffect(() => {
-    dispatch(getEps(movie._id));
+    dispatch(getActors());
   }, [dispatch]);
 
   useEffect(() => {
     setSubmit(false);
-  }, [listEps]);
+  }, [actors]);
 
   const handleDelete = (id) => {
-    dispatch(deleteEp(id));
+    dispatch(deleteActor(id));
   };
 
   const handleChange = (e) => {
     const value = e.target.value;
-    ep.current = { ...ep.current, [e.target.name]: value };
+    actor.current = { ...actor.current, [e.target.name]: value };
   };
 
   const handleUpload = () => {
-    const fileName = new Date().getTime() + video.name;
-    const uploadTask = storage
-      .ref(`/video/${movie._id}/${fileName}`)
-      .put(video);
+    const fileName = new Date().getTime() + img.name;
+    const uploadTask = storage.ref(`/actor/${fileName}`).put(img);
     uploadTask.on(
       "state_change",
       (snapshot) => {
@@ -66,8 +60,8 @@ const AddVideo = () => {
       },
       () => {
         uploadTask.snapshot.ref.getDownloadURL().then((url) => {
-          ep.current = { ...ep.current, video: url };
-          dispatch(createEp(ep.current));
+          actor.current = { ...actor.current, img: url };
+          dispatch(createActor(actor.current));
         });
       }
     );
@@ -75,7 +69,7 @@ const AddVideo = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    if (!ep.current || !ep.current.ep || !ep.current.title || !video) {
+    if (!actor.current || !actor.current.name || !img) {
       dispatch(
         addNoti({
           id: v4(),
@@ -91,17 +85,25 @@ const AddVideo = () => {
   };
 
   const columns = [
+    // { field: "_id", headerName: "ID", width: 200 },
     {
-      field: "ep",
-      headerName: "Tập",
-      width: 150,
+      field: "actor",
+      headerName: "Diễn viên",
+      width: 300,
+      renderCell: (params) => {
+        return (
+          <div className="productListItem">
+            <img className="productListImg" src={params.row.img} alt="" />
+            {params.row.name}
+          </div>
+        );
+      },
     },
-    { field: "title", headerName: "Tiêu đề", width: 250 },
-    { field: "desc", headerName: "Mô tả", width: 250 },
+    { field: "desc", headerName: "Mô tả", width: 230 },
     {
       field: "action",
       headerName: "Xóa",
-      width: 120,
+      width: 90,
       renderCell: (params) => {
         return (
           <>
@@ -115,11 +117,11 @@ const AddVideo = () => {
     },
   ];
   return (
-    <div className="addVideo">
-      {listEps && (
-        <div className="videoList">
+    <div className="newActor">
+      {actors && (
+        <div className="actorList">
           <DataGrid
-            rows={listEps}
+            rows={actors}
             disableSelectionOnClick
             columns={columns}
             pageSize={8}
@@ -129,22 +131,11 @@ const AddVideo = () => {
       )}
       <form className="addProductForm">
         <div className="addProductItem">
-          <label>Chọn tập</label>
-          <select name="ep" id="ep" onChange={handleChange}>
-            <option value="">Tập</option>
-            {[...Array(movie.epNum)].map((x, index) => (
-              <option key={index} value={index + 1}>
-                Tập {index + 1}
-              </option>
-            ))}
-          </select>
-        </div>
-        <div className="addProductItem">
-          <label>Tiêu đề</label>
+          <label>Tên</label>
           <input
             type="text"
-            placeholder="Tiêu đề"
-            name="title"
+            placeholder="Tên diễn viên"
+            name="name"
             onChange={handleChange}
           />
         </div>
@@ -158,23 +149,25 @@ const AddVideo = () => {
           />
         </div>
         <div className="addProductItem">
-          <label>Video</label>
+          <label>Ảnh</label>
           <input
             type="file"
-            name="video"
-            onChange={(e) => setVideo(e.target.files[0])}
+            name="img"
+            onChange={(e) => setImg(e.target.files[0])}
           />
         </div>
-        {submit ? (
-          <div className="loader"></div>
-        ) : (
-          <button className="addProductButton" onClick={handleSubmit}>
-            Thêm tập
-          </button>
-        )}
+        <div className="addProductItem">
+          {submit ? (
+            <div className="loader"></div>
+          ) : (
+            <button className="addActorButton" onClick={handleSubmit}>
+              Thêm diễn viên
+            </button>
+          )}
+        </div>
       </form>
     </div>
   );
 };
 
-export default AddVideo;
+export default NewActor;

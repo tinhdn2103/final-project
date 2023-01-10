@@ -72,9 +72,11 @@ const Info = () => {
               <span>{movie.genre}</span>
             </label>
           </div>
+          <div className="movie-desc">{movie.desc}</div>
           <h2 className="ep-title">Tập {currentEp}</h2>
           <div className="info-desc"></div>
         </div>
+
         <div className="info-right">
           <a href="#comment-section" className="comments">
             <span className="icon">
@@ -125,7 +127,7 @@ const Info = () => {
             <div className="avatar">
               <img
                 src={
-                  user.profilePic ||
+                  user?.profilePic ||
                   "https://firebasestorage.googleapis.com/v0/b/movie-web-fadf1.appspot.com/o/avatar_default.jpg?alt=media&token=58615de8-5e1d-4bc1-bf89-0ce4fdf004f3"
                 }
                 alt=""

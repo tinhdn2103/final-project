@@ -2,6 +2,7 @@ const paypal = require("paypal-rest-sdk");
 const DigitalWallet = require("../models/DigitalWallet");
 const Order = require("../models/Order");
 const Payment = require("../models/Payment");
+const Service = require("../models/Service");
 const router = require("express").Router();
 const verify = require("../verify");
 const PaymentCtrl = require("../controllers/PaymentCtrl");
@@ -17,9 +18,9 @@ paypal.configure({
   client_secret:
     "EGFQxwVVcVSV6Oha_cBI_OiLr3zhBQe0KZI8uNzDDV3OjNCOkRHtIEjY7sl6ovresBfB5ScEC3n1N_Cg",
 });
-let value; // có vấn đề
+
 router.post("/", verify, async (req, res) => {
-  value = req.body;
+  const service = req.body;
 
   const payment_json = {
     intent: "sale",
@@ -27,7 +28,7 @@ router.post("/", verify, async (req, res) => {
       payment_method: "paypal",
     },
     redirect_urls: {
-      return_url: "http://localhost:3000/success",
+      return_url: "http://localhost:3000/success?serviceId=" + service._id,
       cancel_url: "http://localhost:3000/cancel",
     },
     transactions: [
@@ -35,18 +36,21 @@ router.post("/", verify, async (req, res) => {
         item_list: {
           items: [
             {
-              name: value.name,
-              description: value.desc,
+              name: service.name,
+              description: service.desc,
               quantity: 1,
-              price: (value.price - value.price * value.discount).toString(),
+              price: (
+                service.price -
+                service.price * service.discount
+              ).toString(),
               currency: "USD",
-              sku: value._id,
+              sku: service._id,
             },
           ],
         },
         amount: {
           currency: "USD",
-          total: (value.price - value.price * value.discount).toString(),
+          total: (service.price - service.price * service.discount).toString(),
         },
         description: "This is the payment description.",
         payment_options: {
@@ -75,9 +79,11 @@ router.post("/", verify, async (req, res) => {
 router.get("/success", verify, (req, res) => {
   const paymentId = req.query.paymentId;
   const payerId = { payer_id: req.query.PayerID };
+  const serviceId = req.query.serviceId;
   paypal.payment.execute(paymentId, payerId, async function (error, payment) {
     if (error) {
       console.error(JSON.stringify(error));
+      res.status(400).json(error);
     } else {
       if (payment.state == "approved") {
         try {
@@ -90,9 +96,11 @@ router.get("/success", verify, (req, res) => {
               d.getMonth(),
               d.getDate() + 30
             );
+            const service = await Service.findById(serviceId);
+
             const newOrder = new Order({
               user: req.user.id,
-              service: value._id,
+              service: service._id,
               startAt: start,
               endAt: end,
             });
@@ -100,7 +108,7 @@ router.get("/success", verify, (req, res) => {
             const newPayment = new Payment({
               _id: paymentId,
               order: order._id,
-              total: value.price - value.price * value.discount,
+              total: service.price - service.price * service.discount,
             });
             const savedPayment = await newPayment.save();
             const newDigitalWallet = new DigitalWallet({

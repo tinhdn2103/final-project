@@ -3,14 +3,16 @@ import "./navbar.scss";
 import { BsSearch } from "react-icons/bs";
 import { MdNotifications, MdOutlineArrowDropDown } from "react-icons/md";
 import { Link, useNavigate } from "react-router-dom";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { logout } from "../../store/reducers/authSlice";
+import { authSelector } from "../../store/reducers/authSlice";
 
 const Navbar = ({ setGenre, search }) => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [showInput, setShowInput] = useState(false);
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const { user } = useSelector(authSelector);
 
   const handleEnter = (e) => {
     if (e.keyCode === 13 && e.shiftKey === false && e.target.value) {
@@ -68,7 +70,10 @@ const Navbar = ({ setGenre, search }) => {
           <span>Trẻ em</span>
           <MdNotifications className="icon" size={20} />
           <img
-            src="https://firebasestorage.googleapis.com/v0/b/movie-web-fadf1.appspot.com/o/avatar_default.jpg?alt=media&token=58615de8-5e1d-4bc1-bf89-0ce4fdf004f3"
+            src={
+              user?.profilePic ||
+              "https://firebasestorage.googleapis.com/v0/b/movie-web-fadf1.appspot.com/o/avatar_default.jpg?alt=media&token=58615de8-5e1d-4bc1-bf89-0ce4fdf004f3"
+            }
             alt=""
           />
 
@@ -76,7 +81,14 @@ const Navbar = ({ setGenre, search }) => {
             <MdOutlineArrowDropDown className="icon" size={20} />
             <div className="options">
               <span>Cài đặt</span>
-              <span onClick={() => dispatch(logout())}>Đăng xuất</span>
+              <span
+                onClick={() => {
+                  dispatch(logout());
+                  navigate("/register");
+                }}
+              >
+                Đăng xuất
+              </span>
             </div>
           </div>
         </div>

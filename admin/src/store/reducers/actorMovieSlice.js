@@ -48,22 +48,22 @@ export const deleteActorMovie = createAsyncThunk(
 const actorMovieSlice = createSlice({
   name: "actorMovie",
   initialState: {
-    actors: [],
+    actorMovies: [],
   },
   reducers: {},
   extraReducers: {
     [getActorsOfMovie.fulfilled]: (state, action) => {
-      state.actors = action.payload;
+      state.actorMovies = action.payload;
       console.log("Get actors success!");
     },
 
     [createActorMovie.fulfilled]: (state, action) => {
-      state.actors.push(action.payload);
+      state.actorMovies.push(action.payload);
       console.log("Create actor movie success!");
     },
 
     [deleteActorMovie.fulfilled]: (state, action) => {
-      state.actors = state.actors.filter(
+      state.actorMovies = state.actorMovies.filter(
         (actor) => actor._id !== action.payload
       );
       console.log("Delete actor movie success!");
@@ -77,7 +77,8 @@ const actorMovieReducer = actorMovieSlice.reducer;
 
 //Selector
 
-export const actorMovieSelector = (state) => state.actorMovieReducer.actors;
+export const actorMovieSelector = (state) =>
+  state.actorMovieReducer.actorMovies;
 
 //Action export
 export const {} = actorMovieSlice.actions;

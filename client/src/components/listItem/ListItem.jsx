@@ -63,10 +63,15 @@ const ListItem = ({ index, item }) => {
             </Link>
             <div className="itemInfo">
               <div className="icons">
-                <BsFillPlayFill className="icon" size={20} />
+                <Link
+                  to={"/watch"}
+                  onClick={() => dispatch(setMovie(movieItem))}
+                >
+                  <BsFillPlayFill className="icon" size={20} />
+                </Link>
                 <IoMdAdd className="icon" size={20} onClick={handleAdd} />
-                <BiLike className="icon" size={20} />
-                <BiDislike className="icon" size={20} />
+                {/* <BiLike className="icon" size={20} />
+                <BiDislike className="icon" size={20} /> */}
               </div>
               <div className="itemInfoTop">
                 <span>{movieItem.duration}</span>

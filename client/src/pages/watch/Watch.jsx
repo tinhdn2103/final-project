@@ -28,6 +28,7 @@ const Watch = () => {
   const epRef = useRef(1);
   const timeRef = useRef(10);
   const movieRef = useRef(movie);
+  const userRef = useRef(user);
   const [time, setTime] = useState(10);
 
   useEffect(() => {
@@ -50,7 +51,11 @@ const Watch = () => {
     };
     getWatching();
     movieRef.current = movie;
-  }, [movie]);
+  }, [movie, user]);
+
+  useEffect(() => {
+    userRef.current = user;
+  }, [user]);
 
   useEffect(() => {
     videoRef.current.currentTime = currentTime;
@@ -67,23 +72,13 @@ const Watch = () => {
     const interval = setInterval(() => {
       const setWatching = async () => {
         try {
-          await axios.post(
-            "/watching",
-            {
-              movie: movieRef.current._id,
-              user: user._id,
-              time: timeRef.current,
-              currentTime: videoRef.current.currentTime,
-              ep: epRef.current,
-            },
-            {
-              headers: {
-                Authorization:
-                  "Bearer " +
-                  JSON.parse(localStorage.getItem("user")).accessToken,
-              },
-            }
-          );
+          await axios.post("/watching", {
+            movie: movieRef.current._id,
+            user: userRef.current._id,
+            time: timeRef.current,
+            currentTime: videoRef.current.currentTime,
+            ep: epRef.current,
+          });
         } catch (error) {
           console.log(error);
         }

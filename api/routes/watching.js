@@ -23,7 +23,7 @@ router.post("/", verify, async (req, res) => {
     );
     console.log(newWatching.time);
     const movie = await Movie.findById(req.body.movie);
-    if (newWatching.time / (movie.duration * 60) > 0.75) {
+    if (newWatching.time / (movie.duration * 60) > 0.25) {
       const newCountView = new CountView({
         movie: req.body.movie,
         user: req.body.user,

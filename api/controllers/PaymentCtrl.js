@@ -44,7 +44,7 @@ class PaymentCtrl {
     if (req.user.isAdmin) {
       try {
         const payments = await Payment.find()
-          .sort({ _id: -1 })
+          .sort({ createdAt: -1 })
           .limit(5)
           .populate({
             path: "order",

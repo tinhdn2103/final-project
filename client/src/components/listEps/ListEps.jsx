@@ -23,32 +23,36 @@ const ListEps = () => {
       setSlideNumber(slideNumber - 1);
       listRef.current.style.transform = `translateX(${210 + distance}px)`;
     }
-    if (direction === "right" && slideNumber < 10 - clickLimit) {
+    if (direction === "right" && slideNumber < listEps.length - clickLimit) {
       setSlideNumber(slideNumber + 1);
       listRef.current.style.transform = `translateX(${-210 + distance}px)`;
     }
   };
   return (
-    <div className="list">
+    <div className="list-ep">
       <span className="listTitle">
         Danh sách tập<span className="eps">{listEps.length} tập</span>
       </span>
 
       <div className="wrapper">
-        <MdArrowBackIosNew
-          className="sliderArrow left"
-          onClick={() => handleClick("left")}
-          style={{ display: !isMoved && "none" }}
-        />
+        {slideNumber > 0 && (
+          <MdArrowBackIosNew
+            className="sliderArrow left"
+            onClick={() => handleClick("left")}
+            style={{ display: !isMoved && "none" }}
+          />
+        )}
         <div className="container" ref={listRef}>
           {listEps.map((item, index) => (
             <EpItem key={index} item={item} index={index} />
           ))}
         </div>
-        <MdArrowForwardIos
-          className="sliderArrow right"
-          onClick={() => handleClick("right")}
-        />
+        {slideNumber < listEps.length - clickLimit && (
+          <MdArrowForwardIos
+            className="sliderArrow right"
+            onClick={() => handleClick("right")}
+          />
+        )}
       </div>
     </div>
   );

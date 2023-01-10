@@ -65,7 +65,7 @@ class CB:
         self.tfidf_matrix = self.tfidf.fit_transform(df2['tags'])
 #         df2['tags'] = df2.apply(lambda row: word_tokenize(row['tags'], format="text"), axis=1)
 #         stop_words
-        svd = TruncatedSVD(n_components=10)
+        svd = TruncatedSVD(n_components=13)
         vectors = svd.fit_transform(self.tfidf_matrix)
         
         #recommend by movie
@@ -118,7 +118,8 @@ class CB:
         sim_scores = list(enumerate(cosine_sim[0]))
         sim_scores = sim_scores[:-1]
         sim_scores = sorted(sim_scores, key=lambda x: x[1], reverse=True)
-        sim_scores = sim_scores[0:10]
+        # sim_scores = sim_scores[0:5]
+        sim_scores = [num for num in sim_scores if num[1] > 0]
         result = []
         for i in sim_scores:
             result.append(str(self.movies[i[0]]))

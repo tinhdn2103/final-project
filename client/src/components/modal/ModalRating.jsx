@@ -47,7 +47,7 @@ const ModalRating = ({ setOpenModal }) => {
         <div className="body">
           <Rating onClick={(rate) => setRate(rate)} />
         </div>
-        <div className="footer">
+        <div className="footer-modal">
           <button
             onClick={() => {
               setOpenModal(false);

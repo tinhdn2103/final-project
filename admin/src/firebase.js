@@ -19,6 +19,16 @@ const firebaseConfig = {
   measurementId: "G-D0D2BMR0RB",
 };
 
+// const firebaseConfig = {
+//   apiKey: "AIzaSyDpSZrqGRyW-3WhVeBp8eVnbzCzQ5ylPhA",
+//   authDomain: "movie-web-3.firebaseapp.com",
+//   projectId: "movie-web-3",
+//   storageBucket: "movie-web-3.appspot.com",
+//   messagingSenderId: "675983882567",
+//   appId: "1:675983882567:web:d8e88a69acfd85d5ce7462",
+//   measurementId: "G-VZP75TT2LW"
+// };
+
 firebase.initializeApp(firebaseConfig);
 const storage = firebase.storage();
 export default storage;

@@ -75,7 +75,7 @@ const Movie = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    if (!newMovie.current.title) {
+    if (!newMovie.current.title || !newMovie.current.duration) {
       dispatch(
         addNoti({
           id: v4(),
@@ -161,7 +161,27 @@ const Movie = () => {
               defaultValue={movie.limit}
               onChange={handleChange}
             />
-
+            <label>Mô tả</label>
+            <input
+              name="desc"
+              type="text"
+              defaultValue={movie.desc}
+              onChange={handleChange}
+            />
+            <label>Số tập</label>
+            <input
+              name="epNum"
+              type="text"
+              defaultValue={movie.epNum}
+              onChange={handleChange}
+            />
+            <label>Thời lượng 1 tập</label>
+            <input
+              name="duration"
+              type="text"
+              defaultValue={movie.duration}
+              onChange={handleChange}
+            />
             <label>Trailer</label>
             <input
               type="file"

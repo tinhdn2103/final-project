@@ -59,7 +59,13 @@ const NewMovie = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    if (!movie.current || !movie.current.title || !img || !trailer) {
+    if (
+      !movie.current ||
+      !movie.current.title ||
+      !movie.current.duration ||
+      !img ||
+      !trailer
+    ) {
       dispatch(
         addNoti({
           id: v4(),

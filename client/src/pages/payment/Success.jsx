@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Link, useLocation } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import axios from "../../apiClient";
 import "./payment.scss";
 import { useDispatch } from "react-redux";
@@ -10,17 +10,23 @@ const Success = () => {
   const location = useLocation();
   const queryLocation = location.search;
   const dispatch = useDispatch();
+  const navigate = useNavigate();
+
   useEffect(() => {
-    const fetchSession = async () => {
-      try {
-        const res = await axios.get("payment/success" + queryLocation);
-        setSession(res.data);
-        dispatch(checkActive());
-      } catch (error) {
-        console.log(error);
-      }
-    };
-    fetchSession();
+    if (queryLocation) {
+      const fetchSession = async () => {
+        try {
+          const res = await axios.get("payment/success" + queryLocation);
+          setSession(res.data);
+          dispatch(checkActive());
+        } catch (error) {
+          console.log(error);
+        }
+      };
+      fetchSession();
+    } else {
+      navigate("/");
+    }
   }, [queryLocation]);
   return (
     <div className="payment">
@@ -31,9 +37,9 @@ const Success = () => {
             src="https://firebasestorage.googleapis.com/v0/b/movie-web-fadf1.appspot.com/o/logo_nobg.png?alt=media&token=1de4bd0b-097f-4aac-ad2d-b15e4f8d3608"
             alt=""
           />
-          <Link to="/login">
+          {/* <Link to="/login">
             <button className="logoutButton">Đăng xuất</button>
-          </Link>
+          </Link> */}
         </div>
       </div>
       {session && (
